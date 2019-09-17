@@ -13,7 +13,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.1
+ * @version 1.0.2
  */
 abstract class DataModel extends Model
 {
@@ -172,9 +172,12 @@ abstract class DataModel extends Model
     public function delete()
     {
         global $wpdb;
-        return $this->{$this->primary_key}
+        $deleted = $this->{$this->primary_key}
             ? $wpdb->delete( $this->tablename, [$this->primary_key => $this->attributes[$this->primary_key]] )
             : false;
+        if ( $deleted )
+            do_action( '10quality_model_' . $this->table . '_deleted', $this );
+        return $deleted;
     }
     /**
      * Deletes where query.
