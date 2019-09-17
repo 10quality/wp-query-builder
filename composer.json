@@ -1,0 +1,33 @@
+{
+    "name": "10quality/wp-query-builder",
+    "description": "Wordpress Query Builder class library for custom models and data querying.",
+    "license": "MIT",
+    "keywords": ["wordpress","query builder","database", "models"],
+    "authors": [
+        {
+            "name": "Alejandro Mostajo",
+            "email": "amostajo@gmail.com"
+        },
+        {
+            "name": "Hyper Tribal",
+            "email": "grow@hypertribal.com"
+        },
+        {
+            "name": "10 Quality",
+            "email": "info@10quality.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "10quality/php-data-model": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "TenQuality\\WP\\Database\\": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}

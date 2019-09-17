@@ -1,0 +1,192 @@
+<?php
+
+namespace TenQuality\WP\Database\Abstracts;
+
+use Exception;
+use TenQuality\Data\Model;
+use TenQuality\WP\Database\QueryBuilder;
+
+/**
+ * Custom table data model.
+ *
+ * @author Local Vibes <https://localvibes.co/> Hyper Tribal
+ * @author 10 Quality <info@10quality.com>
+ * @license MIT
+ * @package wp-query-builder
+ * @version 1.0.0
+ */
+abstract class DataModel extends Model
+{
+    /**
+     * Database table name.
+     * @since 1.0.0
+     * @var string
+     */
+    protected $table = '';
+    /**
+     * Reference to primary key column name.
+     * @since 1.0.0
+     * @var string
+     */
+    protected $primary_key = 'ID';
+    /**
+     * List of properties used for keyword search.
+     * @since 1.0.0
+     * @var array
+     */
+    protected static $keywords = [];
+    /**
+     * Default model constructor.
+     * @since 1.0.0
+     * 
+     * @param array $attributes
+     * @param mixed $id 
+     */
+    public function __construct( $attributes = [], $id = null )
+    {
+        parent::__construct( $attributes );
+        if ( ! empty( $id ) )
+            $this->attributes[$this->primary_key] = $id;
+    }
+    /**
+     * Returns `tablename` property.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     *
+     * @return string
+     */
+    protected function getTablenameAlias()
+    {
+        global $wpdb;
+        return $wpdb->prefix . $this->table;
+    }
+    /**
+     * Returns list of protected/readonly properties for
+     * when saving or updating.
+     * @since 1.0.0
+     * 
+     * @return array
+     */
+    protected function protected_properties()
+    {
+        return apply_filters(
+            '10quality_datamodel_excluded_save_fields',
+            [$this->primary_key, 'created_at', 'updated_at'],
+            $this->tablename
+        );
+    }
+    /**
+     * Saves data attributes in database.
+     * Returns flag indicating if save process was successful.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @return bool
+     */
+    public function save()
+    {
+        global $wpdb;
+        $protected = $this->protected_properties();
+        if ( $this->{$this->primary_key} ) {
+            // Update
+            $success = $wpdb->update( $this->tablename, array_filter( $this->attributes, function( $key ) use( $protected ) {
+                return ! in_array( $key , $protected );
+            }, ARRAY_FILTER_USE_KEY ), [$this->primary_key => $this->attributes[$this->primary_key]] );
+            if ( $success )
+                do_action( '10quality_model_' . $this->table . '_updated', $this );
+        } else {
+            // Insert
+            $success = $wpdb->insert( $this->tablename, array_filter( $this->attributes, function( $key ) use( $protected ) {
+                return ! in_array( $key , $protected );
+            }, ARRAY_FILTER_USE_KEY ) );
+            $this->{$this->primary_key} = $wpdb->insert_id;
+            if ( $success )
+                do_action( '10quality_model_' . $this->table . '_inserted', $this );
+        }
+        if ( $success )
+            do_action( '10quality_model_' . $this->table . '_save', $this );
+        return $success;
+    }
+    /**
+     * Loads attributes from database.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @return \TenQuality\WP\Database\Abstracts\DataModel|null
+     */
+    public function load()
+    {
+        $builder = new QueryBuilder( $this->table . '_load' );
+        $this->attributes = $builder->select( '*' )
+            ->from( $this->table )
+            ->where( [$this->primary_key => $this->attributes[$this->primary_key]] )
+            ->first( ARRAY_A );
+        return ! empty( $this->attributes )
+            ? apply_filters( '10quality_model_' . $this->table, $this )
+            : null;
+    }
+    /**
+     * Loads attributes from database based on custome where statements
+     * 
+     * Samples:
+     *     // Simple query
+     *     $this->load_where( ['slug' => 'this-example-1'] );
+     *     // Compound query with OR statement
+     *     $this->load_where( ['ID' => 77, 'ID' => ['OR', 546]] );
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @param array $args Query arguments.
+     * 
+     * @return \TenQuality\WP\Database\Abstracts\DataModel|null
+     */
+    public function load_where( $args )
+    {
+        if ( empty( $args ) )
+            return null;
+        if ( ! is_array( $args ) )
+            throw new Exception( 'Arguments parameter must be an array.', 10100 );
+        $builder = new QueryBuilder( $this->table . '_load_where' );
+        $this->attributes = $builder->select( '*' )
+            ->from( $this->table )
+            ->where( $args )
+            ->first( ARRAY_A );
+        return ! empty( $this->attributes )
+            ? apply_filters( '10quality_model_' . $this->table, $this )
+            : null;
+    }
+    /**
+     * Deletes record.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        global $wpdb;
+        return $this->{$this->primary_key}
+            ? $wpdb->delete( $this->tablename, [$this->primary_key => $this->attributes[$this->primary_key]] )
+            : false;
+    }
+    /**
+     * Deletes where query.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @param array $args Query arguments.
+     * 
+     * @return bool
+     */
+    protected function _delete_where( $args )
+    {
+        global $wpdb;
+        return $wpdb->delete( $this->tablename, $args );
+    }
+}
