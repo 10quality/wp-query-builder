@@ -49,6 +49,40 @@ $results = QueryBuilder::create()
 
 For basic model usage, see our [PHP data model documentation](https://github.com/10quality/php-data-model).
 
+Model creation:
+```php
+use TenQuality\WP\Database\Abstracts\DataModel;
+use TenQuality\WP\Database\Traits\DataModelTrait;
+
+class MyModel extends DataModel
+{
+    use DataModelTrait;
+    /**
+     * Data table name in database (without prefix).
+     * @var string
+     */
+    const TABLE = 'model_table';
+    /**
+     * Data table name in database (without prefix).
+     * @var string
+     */
+    protected $table = self::TABLE;
+    /**
+     * Primary key column name.
+     * @var string
+     */
+    protected $primary_key = 'model_id';
+    /**
+     * Model properties, data column list.
+     * @var string
+     */
+    protected $attributes = [
+        'ID',
+        'name',
+    ];
+}
+```
+
 ## License
 
 MIT License (c) 2019
