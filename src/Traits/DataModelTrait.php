@@ -10,7 +10,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author Local Vibes <https://localvibes.co/>
  * @copyright Local Vibes
  * @package localvibes
- * @version 1.0.0
+ * @version 1.0.1
  */
 trait DataModelTrait
 {
@@ -53,7 +53,7 @@ trait DataModelTrait
     public static function insert( $attributes )
     {
         $model = new self( $attributes );
-        return $model->save() ? $model : null;
+        return $model->save( true ) ? $model : null;
     }
     /**
      * Static constructor that deletes records

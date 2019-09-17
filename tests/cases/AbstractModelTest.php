@@ -7,7 +7,7 @@
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.1
  */
 class AbstractModelTest extends PHPUnit_Framework_TestCase
 {
@@ -39,6 +39,43 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
         // Assert
         $this->assertTrue( $flag );
         $this->assertEquals( $wpdb->prefix . Model::TABLE, $wpdb->get_table() );
+        $this->assertEquals( 99, $model->model_id );
+    }
+    /**
+     * Test abstract
+     * @since 1.0.1
+     */
+    public function testSaveUpdate()
+    {
+        // Preapre
+        global $wpdb;
+        $model = new Model( [
+            'model_id'  => 888999,
+            'name'      => 'test',
+        ] );
+        // Exec
+        $flag = $model->save();
+        // Assert
+        $this->assertTrue( $flag );
+        $this->assertEquals( $wpdb->prefix . Model::TABLE, $wpdb->get_table() );
+        $this->assertEquals( 888999, $model->model_id );
+    }
+    /**
+     * Test abstract
+     * @since 1.0.1
+     */
+    public function testSaveForceInsert()
+    {
+        // Preapre
+        global $wpdb;
+        $model = new Model( [
+            'model_id'  => 888999,
+            'name'      => 'test',
+        ] );
+        // Exec
+        $flag = $model->save( true );
+        // Assert
+        $this->assertTrue( $flag );
         $this->assertEquals( 99, $model->model_id );
     }
     /**

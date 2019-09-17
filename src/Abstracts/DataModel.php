@@ -13,7 +13,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.1
  */
 abstract class DataModel extends Model
 {
@@ -83,13 +83,15 @@ abstract class DataModel extends Model
      * 
      * @global object Wordpress Data base accessor.
      * 
+     * @param bool $force_insert Flag that indicates if should insert regardless of ID.
+     * 
      * @return bool
      */
-    public function save()
+    public function save( $force_insert = false )
     {
         global $wpdb;
         $protected = $this->protected_properties();
-        if ( $this->{$this->primary_key} ) {
+        if ( ! $force_insert && $this->{$this->primary_key} ) {
             // Update
             $success = $wpdb->update( $this->tablename, array_filter( $this->attributes, function( $key ) use( $protected ) {
                 return ! in_array( $key , $protected );
