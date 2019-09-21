@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.3
  */
 class QueryBuilder
 {
@@ -138,19 +138,21 @@ class QueryBuilder
                 : true;
             if ( $sanitize_callback )
                 $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
-            $statement = [
-                $key,
-                is_array( $value ) && isset( $value['operator'] ) ? $value['operator'] : ( is_null( $arg_value ) ? 'is' : '=' ),
-                is_array( $value ) && isset( $value['key'] )
-                    ? '`' . $value['key'] . '`'
-                    : ( is_array( $arg_value )
-                        ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
-                        : ( is_null( $arg_value )
-                            ? 'null'
-                            : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
-                        )
-                    ),
-            ];
+            $statement = $key === 'raw'
+                ? [sanitize_text_field( $value )]
+                : [
+                    $key,
+                    is_array( $value ) && isset( $value['operator'] ) ? $value['operator'] : ( is_null( $arg_value ) ? 'is' : '=' ),
+                    is_array( $value ) && isset( $value['key'] )
+                        ? '`' . $value['key'] . '`'
+                        : ( is_array( $arg_value )
+                            ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
+                            : ( is_null( $arg_value )
+                                ? 'null'
+                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                            )
+                        ),
+                ];
             $this->builder['where'][] = [
                 'joint'     => is_array( $value ) && isset( $value['joint'] ) ? $value['joint'] : 'AND',
                 'condition' => implode( ' ', $statement ),

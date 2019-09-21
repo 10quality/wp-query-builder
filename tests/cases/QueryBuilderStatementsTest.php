@@ -9,7 +9,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.3
  */
 class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
 {
@@ -625,6 +625,49 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'SELECT count(1) AS xx FROM prefix_a JOIN prefix_b ON b.y = a.y WHERE a.x = %d '
                 .'GROUP BY a.x HAVING count(1) > 0 ORDER BY xx ASC LIMIT %d OFFSET %d',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.3
+     */
+    public function testWhereRawStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'test_table' )
+            ->where([
+                'test_field'    => 1,
+                'raw'           => 'a = b',
+            ])
+            ->get();
+        // Assert
+        $this->assertEquals(
+            'SELECT * FROM prefix_test_table WHERE test_field = %d AND a = b',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.3
+     */
+    public function testJoinRawStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'test_table' )
+            ->join( 'test_join', [ ['raw' => 'a = b'], ['key' => 'field_a', 'value' => 4] ] )
+            ->get();
+        // Assert
+        $this->assertEquals(
+            'SELECT * FROM prefix_test_table JOIN prefix_test_join ON a = b AND field_a = %d',
             $wpdb->get_query()
         );
     }
