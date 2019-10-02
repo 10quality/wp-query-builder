@@ -138,7 +138,7 @@ class QueryBuilder
             if ( $sanitize_callback )
                 $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
             $statement = $key === 'raw'
-                ? [sanitize_text_field( $value )]
+                ? [$arg_value]
                 : [
                     $key,
                     is_array( $value ) && isset( $value['operator'] ) ? $value['operator'] : ( is_null( $arg_value ) ? 'is' : '=' ),
