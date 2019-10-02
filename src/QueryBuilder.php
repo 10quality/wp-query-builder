@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.3
+ * @version 1.0.4
  */
 class QueryBuilder
 {
@@ -35,8 +35,7 @@ class QueryBuilder
      */
     public function __construct( $id = null )
     {
-        if ( empty( $id ) )
-            $this->id = $id ? $id : uniqid();
+        $this->id = ! empty( $id ) ? $id : uniqid();
         $this->builder = [
             'select'    => [],
             'from'      => null,
@@ -295,8 +294,8 @@ class QueryBuilder
     public function get( $output = OBJECT, $callable_mapping = null )
     {
         global $wpdb;
-        $this->builder = apply_filters( 'localvibes_query_builder_get_builder', $this->builder );
-        $this->builder = apply_filters( 'localvibes_query_builder_get_builder_' . $this->id, $this->builder );
+        $this->builder = apply_filters( 'query_builder_get_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_get_builder_' . $this->id, $this->builder );
         // Build
         // Query
         $query = '';
@@ -310,8 +309,8 @@ class QueryBuilder
         $this->_query_limit( $query );
         $this->_query_offset( $query );
         // Process
-        $query = apply_filters( 'localvibes_query_builder_get_query', $query );
-        $query = apply_filters( 'localvibes_query_builder_get_query_' . $this->id, $query );
+        $query = apply_filters( 'query_builder_get_query', $query );
+        $query = apply_filters( 'query_builder_get_query_' . $this->id, $query );
         $results = $wpdb->get_results( $query, $output );
         if ( $callable_mapping ) {
             $results = array_map( function( $row ) use( &$callable_mapping ) {
@@ -333,8 +332,8 @@ class QueryBuilder
     public function first( $output = OBJECT )
     {
         global $wpdb;
-        $this->builder = apply_filters( 'localvibes_query_builder_first_builder', $this->builder );
-        $this->builder = apply_filters( 'localvibes_query_builder_first_builder_' . $this->id, $this->builder );
+        $this->builder = apply_filters( 'query_builder_first_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_first_builder_' . $this->id, $this->builder );
         // Build
         // Query
         $query = '';
@@ -348,8 +347,8 @@ class QueryBuilder
         $query .= ' LIMIT 1';
         $this->_query_offset( $query );
         // Process
-        $query = apply_filters( 'localvibes_query_builder_first_query', $query );
-        $query = apply_filters( 'localvibes_query_builder_first_query_' . $this->id, $query );
+        $query = apply_filters( 'query_builder_first_query', $query );
+        $query = apply_filters( 'query_builder_first_query_' . $this->id, $query );
         return $wpdb->get_row( $query, $output );
     }
     /**
@@ -366,8 +365,8 @@ class QueryBuilder
     public function value( $x = 0, $y = 0 )
     {
         global $wpdb;
-        $this->builder = apply_filters( 'localvibes_query_builder_value_builder', $this->builder );
-        $this->builder = apply_filters( 'localvibes_query_builder_value_builder_' . $this->id, $this->builder );
+        $this->builder = apply_filters( 'query_builder_value_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_value_builder_' . $this->id, $this->builder );
         // Build
         // Query
         $query = '';
@@ -381,8 +380,8 @@ class QueryBuilder
         $this->_query_limit( $query );
         $this->_query_offset( $query );
         // Process
-        $query = apply_filters( 'localvibes_query_builder_value_query', $query );
-        $query = apply_filters( 'localvibes_query_builder_value_query_' . $this->id, $query );
+        $query = apply_filters( 'query_builder_value_query', $query );
+        $query = apply_filters( 'query_builder_value_query_' . $this->id, $query );
         return $wpdb->get_var( $query, $x, $y );
     }
     /**
@@ -399,8 +398,8 @@ class QueryBuilder
     public function count( $column = 1, $bypass_limit = true )
     {
         global $wpdb;
-        $this->builder = apply_filters( 'localvibes_query_builder_count_builder', $this->builder );
-        $this->builder = apply_filters( 'localvibes_query_builder_count_builder_' . $this->id, $this->builder );
+        $this->builder = apply_filters( 'query_builder_count_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_count_builder_' . $this->id, $this->builder );
         // Build
         // Query
         $query = 'SELECT count(' . $column . ') as `count`';
@@ -414,8 +413,8 @@ class QueryBuilder
             $this->_query_offset( $query );
         }
         // Process
-        $query = apply_filters( 'localvibes_query_builder_count_query', $query );
-        $query = apply_filters( 'localvibes_query_builder_count_query_' . $this->id, $query );
+        $query = apply_filters( 'query_builder_count_query', $query );
+        $query = apply_filters( 'query_builder_count_query_' . $this->id, $query );
         return $wpdb->get_var( $query );
     }
     /**

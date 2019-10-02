@@ -13,7 +13,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.2
+ * @version 1.0.4
  */
 abstract class DataModel extends Model
 {
@@ -71,7 +71,7 @@ abstract class DataModel extends Model
     protected function protected_properties()
     {
         return apply_filters(
-            '10quality_datamodel_excluded_save_fields',
+            'data_model_excluded_save_fields',
             [$this->primary_key, 'created_at', 'updated_at'],
             $this->tablename
         );
@@ -97,7 +97,7 @@ abstract class DataModel extends Model
                 return ! in_array( $key , $protected );
             }, ARRAY_FILTER_USE_KEY ), [$this->primary_key => $this->attributes[$this->primary_key]] );
             if ( $success )
-                do_action( '10quality_model_' . $this->table . '_updated', $this );
+                do_action( 'data_model_' . $this->table . '_updated', $this );
         } else {
             // Insert
             $success = $wpdb->insert( $this->tablename, array_filter( $this->attributes, function( $key ) use( $protected ) {
@@ -105,10 +105,10 @@ abstract class DataModel extends Model
             }, ARRAY_FILTER_USE_KEY ) );
             $this->{$this->primary_key} = $wpdb->insert_id;
             if ( $success )
-                do_action( '10quality_model_' . $this->table . '_inserted', $this );
+                do_action( 'data_model_' . $this->table . '_inserted', $this );
         }
         if ( $success )
-            do_action( '10quality_model_' . $this->table . '_save', $this );
+            do_action( 'data_model_' . $this->table . '_save', $this );
         return $success;
     }
     /**
@@ -127,7 +127,7 @@ abstract class DataModel extends Model
             ->where( [$this->primary_key => $this->attributes[$this->primary_key]] )
             ->first( ARRAY_A );
         return ! empty( $this->attributes )
-            ? apply_filters( '10quality_model_' . $this->table, $this )
+            ? apply_filters( 'data_model_' . $this->table, $this )
             : null;
     }
     /**
@@ -158,7 +158,7 @@ abstract class DataModel extends Model
             ->where( $args )
             ->first( ARRAY_A );
         return ! empty( $this->attributes )
-            ? apply_filters( '10quality_model_' . $this->table, $this )
+            ? apply_filters( 'data_model_' . $this->table, $this )
             : null;
     }
     /**
@@ -176,7 +176,7 @@ abstract class DataModel extends Model
             ? $wpdb->delete( $this->tablename, [$this->primary_key => $this->attributes[$this->primary_key]] )
             : false;
         if ( $deleted )
-            do_action( '10quality_model_' . $this->table . '_deleted', $this );
+            do_action( 'data_model_' . $this->table . '_deleted', $this );
         return $deleted;
     }
     /**
