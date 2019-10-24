@@ -13,7 +13,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.4
+ * @version 1.0.5
  */
 abstract class DataModel extends Model
 {
@@ -71,7 +71,7 @@ abstract class DataModel extends Model
     protected function protected_properties()
     {
         return apply_filters(
-            'data_model_excluded_save_fields',
+            'data_model_' . $this->table . '_excluded_save_fields',
             [$this->primary_key, 'created_at', 'updated_at'],
             $this->tablename
         );

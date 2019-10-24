@@ -46,7 +46,7 @@ trait DataModelTrait
      * Static constructor that inserts recond in database and fills model.
      * @since 1.0.0
      * 
-     * @param arrary $attributes
+     * @param array $attributes
      * 
      * @return \TenQuality\WP\Database\Abstracts\DataModel
      */
