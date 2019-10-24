@@ -415,7 +415,7 @@ class QueryBuilder
         // Process
         $query = apply_filters( 'query_builder_count_query', $query );
         $query = apply_filters( 'query_builder_count_query_' . $this->id, $query );
-        return $wpdb->get_var( $query );
+        return intval( $wpdb->get_var( $query ) );
     }
     /**
      * Builds query's select statement.

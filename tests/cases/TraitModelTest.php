@@ -82,6 +82,7 @@ class TraitModelTest extends PHPUnit_Framework_TestCase
         // Exec
         $count = Model::count();
         // Assert
+        $this->assertInternalType( 'int', $count );
         $this->assertEquals( 1, $count );
     }
 }
