@@ -1,5 +1,9 @@
 # Wordpress Query Builder Library
 
+[![Latest Stable Version](https://poser.pugx.org/10quality/wp-query-builder/v/stable)](https://packagist.org/packages/10quality/wp-query-builder)
+[![Total Downloads](https://poser.pugx.org/10quality/wp-query-builder/downloads)](https://packagist.org/packages/10quality/wp-query-builder)
+[![License](https://poser.pugx.org/10quality/wp-query-builder/license)](https://packagist.org/packages/10quality/wp-query-builder)
+
 Provides a Query Builder class built over Wordpress core Database class accessor. Usability is similar to Laravel's Eloquent.
 
 The library also provides an anstract class and a trait to be used on data models built for custom tables. The abstract class extends our generic [PHP model](https://github.com/10quality/php-data-model) class.
