@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.5
+ * @version 1.0.5.1
  */
 class QueryBuilder
 {
@@ -141,7 +141,7 @@ class QueryBuilder
                 ? [$arg_value]
                 : [
                     $key,
-                    is_array( $value ) && isset( $value['operator'] ) ? $value['operator'] : ( is_null( $arg_value ) ? 'is' : '=' ),
+                    is_array( $value ) && isset( $value['operator'] ) ? $value['operator'] : ( $arg_value === null ? 'is' : '=' ),
                     is_array( $value ) && isset( $value['key'] )
                         ? '`' . $value['key'] . '`'
                         : ( is_array( $arg_value )
@@ -189,12 +189,12 @@ class QueryBuilder
                 ? $argument['raw']
                 : implode( ' ', [
                     isset( $argument['key_a'] ) ? $argument['key_a'] : $argument['key'],
-                    isset( $argument['operator'] ) ? $argument['operator'] : ( is_null( $arg_value ) && ! isset( $argument['key_b'] ) ? 'is' : '=' ),
+                    isset( $argument['operator'] ) ? $argument['operator'] : ( $arg_value === null && ! isset( $argument['key_b'] ) ? 'is' : '=' ),
                     isset( $argument['key_b'] )
                         ? $argument['key_b']
                         : ( is_array( $arg_value )
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
-                            : ( is_null( $arg_value )
+                            : ( $arg_value === null
                                 ? 'null'
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             )

@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/10quality/wp-query-builder/v/stable)](https://packagist.org/packages/10quality/wp-query-builder)
 [![Total Downloads](https://poser.pugx.org/10quality/wp-query-builder/downloads)](https://packagist.org/packages/10quality/wp-query-builder)
 [![License](https://poser.pugx.org/10quality/wp-query-builder/license)](https://packagist.org/packages/10quality/wp-query-builder)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/549d3f322a0a4eafa0ea2f4c6206a9b1)](https://www.codacy.com/manual/amostajo/wp-query-builder?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=10quality/wp-query-builder&amp;utm_campaign=Badge_Grade)
 
 Provides a Query Builder class built over Wordpress core Database class accessor. Usability is similar to Laravel's Eloquent.
 
