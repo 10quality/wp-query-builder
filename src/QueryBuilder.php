@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.5.1
+ * @version 1.0.5.2
  */
 class QueryBuilder
 {
@@ -146,7 +146,7 @@ class QueryBuilder
                         ? '`' . $value['key'] . '`'
                         : ( is_array( $arg_value )
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
-                            : ( is_null( $arg_value )
+                            : ( $arg_value === null
                                 ? 'null'
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             )
