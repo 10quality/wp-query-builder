@@ -17,5 +17,8 @@ function absint( $value ) {
     return intval( $value );
 }
 function sanitize_text_field( $value ) {
-    return $value;
+    return 'sanitized(' . $value . ')';
+}
+function custom_sanitize( $value ) {
+    return 'custom(' . $value . ')';
 }

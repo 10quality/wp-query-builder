@@ -542,19 +542,70 @@ class QueryBuilder
     private function sanitize_value( $callback, $value )
     {
         if ( $callback === true )
-            $callback = is_float( $value )
+            $callback = ( is_numeric( $value ) && strpos( $value, '.' ) !== false )
                 ? 'floatval'
-                : ( is_integer( $value )
+                : ( is_numeric( $value )
                     ? 'absint'
                     : ( is_string( $value )
                         ? 'sanitize_text_field'
                         : null
                     )
                 );
+        if ( strpos( $callback, '_builder' ) !== false )
+            $callback = [&$this, $callback];
         if ( is_array( $value ) )
             for ( $i = count( $value ) -1; $i >= 0; --$i ) {
                 $value[$i] = $this->sanitize_value( true, $value[$i] );
             }
-        return $callback ? call_user_func_array( $callback, [$value] ) : $value;
+        return $callback && is_callable( $callback ) ? call_user_func_array( $callback, [$value] ) : $value;
+    }
+    /**
+     * Returns value escaped with WPDB `esc_like`,
+     * @since 1.0.6
+     * 
+     * @param mixed $value
+     * 
+     * @return string
+     */
+    private function _builder_esc_like( $value )
+    {
+        global $wpdb;
+        return $wpdb->esc_like( $value );
+    }
+    /**
+     * Returns escaped value for LIKE comparison and appends wild card at the beggining.
+     * @since 1.0.6
+     * 
+     * @param mixed $value
+     * 
+     * @return string
+     */
+    private function _builder_esc_like_wild_value( $value )
+    {
+        return '%' . $this->_builder_esc_like( $value );
+    }
+    /**
+     * Returns escaped value for LIKE comparison and appends wild card at the end.
+     * @since 1.0.6
+     * 
+     * @param mixed $value
+     * 
+     * @return string
+     */
+    private function _builder_esc_like_value_wild( $value )
+    {
+        return $this->_builder_esc_like( $value ) . '%';
+    }
+    /**
+     * Returns escaped value for LIKE comparison and appends wild cards at both ends.
+     * @since 1.0.6
+     * 
+     * @param mixed $value
+     * 
+     * @return string
+     */
+    private function _builder_esc_like_wild_wild( $value )
+    {
+        return '%' . $this->_builder_esc_like( $value ) . '%';
     }
 }

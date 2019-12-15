@@ -642,7 +642,10 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
             ->from( 'test_table' )
             ->where([
                 'test_field'    => 1,
-                'raw'           => 'a = b',
+                'raw'           => [
+                    'value' => 'a = b',
+                    'sanitize_callback' => false,
+                ],
             ])
             ->get();
         // Assert

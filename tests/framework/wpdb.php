@@ -1,7 +1,7 @@
 <?php
 /**
  * WP mockery class.
- * @version 1.0.0
+ * @version 1.0.6
  */
 class WPDB
 {
@@ -11,6 +11,12 @@ class WPDB
      * @var string
      */
     public static $query = '';
+    /**
+     * Last query executed.
+     * @since 1.0.0
+     * @var string
+     */
+    public static $prepare_args = '';
     /**
      * Last table used.
      * @since 1.0.0
@@ -23,6 +29,8 @@ class WPDB
     {
         $args = func_get_args();
         $query = $args[0];
+        unset( $args[0] );
+        static::$prepare_args = $args;
         return $query;
     }
     public function get_results( $query, $output = OBJECT )
@@ -92,5 +100,15 @@ class WPDB
     public function get_table()
     {
         return static::$table;
+    }
+    public function esc_like($val)
+    {
+        return 'esc_like('.$val.')';
+    }
+    public function filter_prepare_args($value)
+    {
+        return array_filter( static::$prepare_args, function($arg) use(&$value) {
+            return $arg === $value;
+        } );
     }
 }
