@@ -288,10 +288,11 @@ class QueryBuilder
      * 
      * @param int      $output           WPDB output type.
      * @param callable $callable_mapping Function callable to filter or map results to.
+     * @param bool     $calc_rows        Flag that indicates to SQL if rows should be calculated or not.
      * 
      * @return array
      */
-    public function get( $output = OBJECT, $callable_mapping = null )
+    public function get( $output = OBJECT, $callable_mapping = null, $calc_rows = false )
     {
         global $wpdb;
         $this->builder = apply_filters( 'query_builder_get_builder', $this->builder );
@@ -299,7 +300,7 @@ class QueryBuilder
         // Build
         // Query
         $query = '';
-        $this->_query_select( $query );
+        $this->_query_select( $query, $calc_rows );
         $this->_query_from( $query );
         $this->_query_join( $query );
         $this->_query_where( $query );
@@ -423,11 +424,12 @@ class QueryBuilder
      * 
      * @global object $wpdb
      * 
-     * @param int $x Column index number.
+     * @param int  $x Column index number.
+     * @param bool $calc_rows        Flag that indicates to SQL if rows should be calculated or not.
      * 
      * @return array
      */
-    public function col( $x = 0 )
+    public function col( $x = 0, $calc_rows = false )
     {
         global $wpdb;
         $this->builder = apply_filters( 'query_builder_col_builder', $this->builder );
@@ -435,7 +437,7 @@ class QueryBuilder
         // Build
         // Query
         $query = '';
-        $this->_query_select( $query );
+        $this->_query_select( $query, $calc_rows );
         $this->_query_from( $query );
         $this->_query_join( $query );
         $this->_query_where( $query );
@@ -450,14 +452,32 @@ class QueryBuilder
         return $wpdb->get_col( $query, $x );
     }
     /**
+     * Retunrs found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.
+     * @since 1.0.6
+     * 
+     * @global object $wpdb
+     * 
+     * @return array
+     */
+    public function rows_found()
+    {
+        global $wpdb;
+        $query = 'SELECT FOUND_ROWS()';
+        // Process
+        $query = apply_filters( 'query_builder_found_rows_query', $query );
+        $query = apply_filters( 'query_builder_found_rows_query_' . $this->id, $query );
+        return $wpdb->get_var( $query );
+    }
+    /**
      * Builds query's select statement.
      * @since 1.0.0
      * 
      * @param string &$query
+     * @param bool   $calc_rows
      */
-    private function _query_select( &$query )
+    private function _query_select( &$query, $calc_rows = false )
     {
-        $query = 'SELECT ' . ( is_array( $this->builder['select'] )
+        $query = 'SELECT ' . ( $calc_rows ? 'SQL_CALC_FOUND_ROWS ' : '' ) . ( is_array( $this->builder['select'] )
             ? implode( ',' , $this->builder['select'] )
             : $this->builder['select']
         );

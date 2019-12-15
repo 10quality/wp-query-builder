@@ -9,7 +9,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.3
+ * @version 1.0.6
  */
 class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
 {
@@ -673,5 +673,53 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
             'SELECT * FROM prefix_test_table JOIN prefix_test_join ON a = b AND field_a = %d',
             $wpdb->get_query()
         );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.6
+     */
+    public function testSelectCalcRowsStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( 'test_field' )->get( OBJECT, null, true );
+        // Assert
+        $this->assertEquals(
+            'SELECT SQL_CALC_FOUND_ROWS test_field FROM ',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.6
+     */
+    public function testColCalcRowsStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( 'test_field' )->col( 0, true );
+        // Assert
+        $this->assertEquals(
+            'SELECT SQL_CALC_FOUND_ROWS test_field FROM ',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.6
+     */
+    public function testRowsFoundStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( 'test_field' )->rows_found();
+        // Assert
+        $this->assertEquals('SELECT FOUND_ROWS()', $wpdb->get_query());
     }
 }

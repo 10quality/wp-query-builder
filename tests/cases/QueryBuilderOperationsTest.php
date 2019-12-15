@@ -168,4 +168,17 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
         // Assert dummy results
         $this->assertEquals( ['type','type','type','type'], $columns );
     }
+    /**
+     * Test query builder
+     * @since 1.0.0
+     */
+    public function testRowFound()
+    {
+        // Preapre
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $var = $builder->rows_found();
+        // Assert dummy results
+        $this->assertEquals( 1, $var );
+    }
 }
