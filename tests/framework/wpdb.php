@@ -77,6 +77,32 @@ class WPDB
         }
         return null;
     }
+    public function get_col( $query, $x = 0 )
+    {
+        static::$query = $query;
+        $results = [];
+        for ( $i = 0; $i < 4; $i++ ) {
+            switch ( $x ) {
+                case 1:
+                    $results[] = 'type';
+                    break;
+                case 2:
+                    $results[] = uniqid();
+                    break;
+                case 3:
+                    $results[] = time();
+                    break;
+                case 4:
+                    $results[] = date( 'Y-m-d H:i' );
+                    break;
+                case 0:
+                default;
+                    $results[] = $i + 1;
+                    break;
+            }
+        }
+        return $results;
+    }
     public function insert( $table )
     {
         static::$table = $table;

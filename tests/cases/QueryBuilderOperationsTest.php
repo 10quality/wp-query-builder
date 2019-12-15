@@ -9,7 +9,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.6
  */
 class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
 {
@@ -141,5 +141,31 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
         $var = $builder->value( 0, 1 );
         // Assert dummy results
         $this->assertEquals( 2, $var );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.6
+     */
+    public function testCol()
+    {
+        // Preapre
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $columns = $builder->col();
+        // Assert dummy results
+        $this->assertEquals( [1,2,3,4], $columns );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.6
+     */
+    public function testCol2()
+    {
+        // Preapre
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $columns = $builder->col(1);
+        // Assert dummy results
+        $this->assertEquals( ['type','type','type','type'], $columns );
     }
 }

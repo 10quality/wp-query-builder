@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.5.2
+ * @version 1.0.6
  */
 class QueryBuilder
 {
@@ -416,6 +416,38 @@ class QueryBuilder
         $query = apply_filters( 'query_builder_count_query', $query );
         $query = apply_filters( 'query_builder_count_query_' . $this->id, $query );
         return intval( $wpdb->get_var( $query ) );
+    }
+    /**
+     * Retunrs column results from builder statements.
+     * @since 1.0.6
+     * 
+     * @global object $wpdb
+     * 
+     * @param int $x Column index number.
+     * 
+     * @return array
+     */
+    public function col( $x = 0 )
+    {
+        global $wpdb;
+        $this->builder = apply_filters( 'query_builder_col_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_col_builder_' . $this->id, $this->builder );
+        // Build
+        // Query
+        $query = '';
+        $this->_query_select( $query );
+        $this->_query_from( $query );
+        $this->_query_join( $query );
+        $this->_query_where( $query );
+        $this->_query_group( $query );
+        $this->_query_having( $query );
+        $this->_query_order( $query );
+        $this->_query_limit( $query );
+        $this->_query_offset( $query );
+        // Process
+        $query = apply_filters( 'query_builder_col_query', $query );
+        $query = apply_filters( 'query_builder_col_query_' . $this->id, $query );
+        return $wpdb->get_col( $query, $x );
     }
     /**
      * Builds query's select statement.
