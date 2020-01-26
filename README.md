@@ -5,9 +5,11 @@
 [![License](https://poser.pugx.org/10quality/wp-query-builder/license)](https://packagist.org/packages/10quality/wp-query-builder)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/549d3f322a0a4eafa0ea2f4c6206a9b1)](https://www.codacy.com/manual/amostajo/wp-query-builder?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=10quality/wp-query-builder&amp;utm_campaign=Badge_Grade)
 
-Provides a Query Builder class built over Wordpress core Database class accessor. Usability is similar to Laravel's Eloquent.
+This package provides a SQL query builder class built on top of WordPress core Database accessor. Usability is similar to Laravel's Eloquent.
 
-The library also provides an anstract class and a trait to be used on data models built for custom tables. The abstract class extends our generic [PHP model](https://github.com/10quality/php-data-model) class.
+The library also provides an abstract class and a trait to be used on data models built for custom tables. The abstract class extends our generic [PHP model](https://github.com/10quality/php-data-model) class.
+
+This is the perfect package to use within the [WordPress MVC](https://www.wordpress-mvc.com/) framework.
 
 ## Install
 
