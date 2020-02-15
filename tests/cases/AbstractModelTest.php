@@ -17,6 +17,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.0
      * @group abstract
+     * @group model
     */
     public function testTablenameProperty()
     {
@@ -30,6 +31,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.0
      * @group abstract
+     * @group model
      */
     public function testSave()
     {
@@ -49,6 +51,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.1
      * @group abstract
+     * @group model
      */
     public function testSaveUpdate()
     {
@@ -69,6 +72,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.1
      * @group abstract
+     * @group model
      */
     public function testSaveForceInsert()
     {
@@ -88,6 +92,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.0
      * @group abstract
+     * @group model
      */
     public function testDelete()
     {
@@ -106,6 +111,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.0
      * @group abstract
+     * @group model
      */
     public function testDeleteEmpty()
     {
@@ -120,6 +126,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.0
      * @group abstract
+     * @group model
      */
     public function testLoad()
     {
@@ -142,6 +149,7 @@ class AbstractModelTest extends TestCase
      * Test abstract
      * @since 1.0.7
      * @group abstract
+     * @group model
      */
     public function testSaveTimestamps()
     {

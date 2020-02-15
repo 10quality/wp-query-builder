@@ -10,7 +10,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author Local Vibes <https://localvibes.co/>
  * @copyright Local Vibes
  * @package localvibes
- * @version 1.0.1
+ * @version 1.0.7
  */
 trait DataModelTrait
 {
@@ -135,5 +135,24 @@ trait DataModelTrait
     {
         $builder = new QueryBuilder( self::TABLE . '_custom' );
         return $builder->from( self::TABLE . ' as `' . self::TABLE . '`' );
+    }
+    /**
+     * Returns a collection with all models found in the database.
+     * @since 1.0.7
+     * 
+     * @return array
+     */
+    public static function all()
+    {
+        // Build query and retrieve
+        $builder = new QueryBuilder( self::TABLE . '_all' );
+        return array_map(
+            function( $attributes ) {
+                return new self( $attributes );
+            },
+            $builder->select( '*' )
+                ->from( self::TABLE . ' as `' . self::TABLE . '`' )
+                ->get( ARRAY_A )
+        );
     }
 }

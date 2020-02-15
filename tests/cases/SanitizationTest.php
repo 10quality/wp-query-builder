@@ -223,8 +223,7 @@ class SanitizationTest extends TestCase
         // Preapre
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
-        // Prepare
-        // Prepare
+        // Run
         $builder->select( '*' )
             ->from( 'test_table' )
             ->where( [

@@ -97,4 +97,20 @@ class TraitModelTest extends TestCase
         $this->assertInternalType( 'int', $count );
         $this->assertEquals( 1, $count );
     }
+    /**
+     * Test abstract
+     * @since 1.0.7
+     * @group model
+     * @group trait
+     */
+    public function testAll()
+    {
+        // Preapre
+        global $wpdb;
+        // Exec
+        $collection = Model::all();
+        // Assert
+        $this->assertInternalType( 'array', $collection );
+        $this->assertInstanceOf( 'Model', $collection[0] );
+    }
 }
