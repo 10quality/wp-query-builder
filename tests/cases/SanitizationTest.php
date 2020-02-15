@@ -1,6 +1,7 @@
 <?php
 
 use TenQuality\WP\Database\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
@@ -9,13 +10,14 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.6
+ * @version 1.0.7
  */
-class SanitizationTest extends PHPUnit_Framework_TestCase
+class SanitizationTest extends TestCase
 {
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testSanitizeInt()
     {
@@ -39,6 +41,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testSanitizeFloat()
     {
@@ -62,6 +65,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testSanitizeString()
     {
@@ -83,6 +87,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testSanitizeCustomCallable()
     {
@@ -107,6 +112,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testEscLike()
     {
@@ -132,6 +138,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testEscLikeWildValue()
     {
@@ -157,6 +164,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testEscLikeValueWild()
     {
@@ -182,6 +190,7 @@ class SanitizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group sanitization
      */
     public function testEscLikeWildWild()
     {

@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test.
  *
@@ -7,13 +9,14 @@
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.1
+ * @version 1.0.7
  */
-class AbstractModelTest extends PHPUnit_Framework_TestCase
+class AbstractModelTest extends TestCase
 {
     /**
      * Test abstract
      * @since 1.0.0
+     * @group abstract
     */
     public function testTablenameProperty()
     {
@@ -26,6 +29,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group abstract
      */
     public function testSave()
     {
@@ -44,6 +48,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.1
+     * @group abstract
      */
     public function testSaveUpdate()
     {
@@ -63,6 +68,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.1
+     * @group abstract
      */
     public function testSaveForceInsert()
     {
@@ -81,6 +87,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group abstract
      */
     public function testDelete()
     {
@@ -98,6 +105,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group abstract
      */
     public function testDeleteEmpty()
     {
@@ -111,6 +119,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group abstract
      */
     public function testLoad()
     {

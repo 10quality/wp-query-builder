@@ -6,10 +6,9 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         stopOnFailure="true"
-         syntaxCheck="true">
+         stopOnFailure="true">
     <testsuites>
-        <testsuite name="Package Test Suite">
+        <testsuite name="WordPress Query Builder">
             <directory>./tests/cases/</directory>
         </testsuite>
     </testsuites>

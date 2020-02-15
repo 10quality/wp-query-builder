@@ -1,6 +1,7 @@
 <?php
 
 use TenQuality\WP\Database\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
@@ -9,13 +10,15 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.6
+ * @version 1.0.7
  */
-class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
+class QueryBuilderStatementsTest extends TestCase
 {
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testSelectStatement()
     {
@@ -33,6 +36,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testFromStatement()
     {
@@ -51,6 +56,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testFromNoPrefixStatement()
     {
@@ -69,6 +76,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereStatement()
     {
@@ -89,6 +98,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereNullStatement()
     {
@@ -109,6 +120,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereOperatorStatement()
     {
@@ -129,6 +142,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereNotNullStatement()
     {
@@ -149,6 +164,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereMultipleStatement()
     {
@@ -169,6 +186,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereMultipleJointStatement()
     {
@@ -192,6 +211,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereStringStatement()
     {
@@ -212,6 +233,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testWhereArrayStatement()
     {
@@ -232,6 +255,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testJoinStatement()
     {
@@ -252,6 +277,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testLeftJoinStatement()
     {
@@ -272,6 +299,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testJoinNoPrefixStatement()
     {
@@ -292,6 +321,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testJoinMultipleStatement()
     {
@@ -315,6 +346,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testJoinNullOperatorStatement()
     {
@@ -338,6 +371,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testJoinStringJointArrayOperatorStatement()
     {
@@ -361,6 +396,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testLimitStatement()
     {
@@ -381,6 +418,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testOffsetStatement()
     {
@@ -401,6 +440,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testLimitOffsetStatement()
     {
@@ -422,6 +463,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testGroupByStatement()
     {
@@ -442,6 +485,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testGroupByMultipleStatement()
     {
@@ -463,6 +508,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testOrderByStatement()
     {
@@ -483,6 +530,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testOrderByMultipleDescStatement()
     {
@@ -504,6 +553,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testHavingStatement()
     {
@@ -524,6 +575,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testKeywordsStatement()
     {
@@ -544,6 +597,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testKeywordsMultipleStatement()
     {
@@ -564,6 +619,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testKeywordsSeparatorStatement()
     {
@@ -584,6 +641,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testKeywordsSeparatorMultipleStatement()
     {
@@ -604,6 +663,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group building
      */
     public function testAllStatements()
     {
@@ -631,6 +692,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.3
+     * @group query
+     * @group building
      */
     public function testWhereRawStatement()
     {
@@ -657,6 +720,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.3
+     * @group query
+     * @group building
      */
     public function testJoinRawStatement()
     {
@@ -677,6 +742,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group query
+     * @group building
      */
     public function testSelectCalcRowsStatement()
     {
@@ -694,6 +761,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group query
+     * @group building
      */
     public function testColCalcRowsStatement()
     {
@@ -711,6 +780,8 @@ class QueryBuilderStatementsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group query
+     * @group building
      */
     public function testRowsFoundStatement()
     {

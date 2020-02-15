@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test.
  *
@@ -7,13 +9,15 @@
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.0
+ * @version 1.0.7
  */
-class TraitModelTest extends PHPUnit_Framework_TestCase
+class TraitModelTest extends TestCase
 {
     /**
      * Test abstract
      * @since 1.0.0
+     * @group model
+     * @group trait
      */
     public function testFind()
     {
@@ -32,6 +36,8 @@ class TraitModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group model
+     * @group trait
      */
     public function testFindWhere()
     {
@@ -49,6 +55,8 @@ class TraitModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group model
+     * @group trait
      */
     public function testInsert()
     {
@@ -64,6 +72,8 @@ class TraitModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group model
+     * @group trait
      */
     public function testWhere()
     {
@@ -76,6 +86,8 @@ class TraitModelTest extends PHPUnit_Framework_TestCase
     /**
      * Test abstract
      * @since 1.0.0
+     * @group model
+     * @group trait
      */
     public function testCount()
     {

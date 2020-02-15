@@ -1,6 +1,7 @@
 <?php
 
 use TenQuality\WP\Database\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
@@ -9,13 +10,15 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.6
+ * @version 1.0.7
  */
-class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
+class QueryBuilderOperationsTest extends TestCase
 {
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testGet()
     {
@@ -31,6 +34,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testGetArray()
     {
@@ -45,6 +50,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testGetCallable()
     {
@@ -62,6 +69,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testFirst()
     {
@@ -75,6 +84,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testFirstArray()
     {
@@ -88,6 +99,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testValue()
     {
@@ -101,6 +114,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testCount()
     {
@@ -119,6 +134,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testValueX()
     {
@@ -132,6 +149,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testValueY()
     {
@@ -145,6 +164,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group query
+     * @group execution
      */
     public function testCol()
     {
@@ -158,6 +179,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.6
+     * @group query
+     * @group execution
      */
     public function testCol2()
     {
@@ -171,6 +194,8 @@ class QueryBuilderOperationsTest extends PHPUnit_Framework_TestCase
     /**
      * Test query builder
      * @since 1.0.0
+     * @group query
+     * @group execution
      */
     public function testRowFound()
     {
