@@ -13,7 +13,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.5
+ * @version 1.0.7
  */
 abstract class DataModel extends Model
 {
@@ -104,6 +104,9 @@ abstract class DataModel extends Model
                 return ! in_array( $key , $protected );
             }, ARRAY_FILTER_USE_KEY ) );
             $this->{$this->primary_key} = $wpdb->insert_id;
+            $date = date( 'Y-m-d H:i:s' );
+            $this->created_at = $date;
+            $this->updated_at = $date;
             if ( $success )
                 do_action( 'data_model_' . $this->table . '_inserted', $this );
         }

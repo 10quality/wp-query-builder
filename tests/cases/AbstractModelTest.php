@@ -138,4 +138,28 @@ class AbstractModelTest extends TestCase
         $this->assertEquals( 101, $model->model_id );
         $this->assertEquals( 'type', $model->type );
     }
+    /**
+     * Test abstract
+     * @since 1.0.7
+     * @group abstract
+     */
+    public function testSaveTimestamps()
+    {
+        // Preapre
+        global $wpdb;
+        $model = new Model( [
+            'name'  => 'test',
+        ] );
+        $date_format = 'Y-m-d H:i:s';
+        // Exec
+        $flag = $model->save();
+        $created_at = DateTime::createFromFormat( $date_format, $model->created_at );
+        $updated_at = DateTime::createFromFormat( $date_format, $model->updated_at );
+        // Assert
+        $this->assertTrue( $flag );
+        $this->assertNotEmpty( $model->created_at );
+        $this->assertNotEmpty( $model->updated_at );
+        $this->assertTrue( $created_at && $created_at->format( $date_format ) === $model->created_at );
+        $this->assertTrue( $updated_at && $updated_at->format( $date_format ) === $model->updated_at );
+    }
 }
