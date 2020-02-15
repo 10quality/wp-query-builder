@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.6
+ * @version 1.0.7
  */
 class QueryBuilder
 {
@@ -597,7 +597,7 @@ class QueryBuilder
             $callback = ( is_numeric( $value ) && strpos( $value, '.' ) !== false )
                 ? 'floatval'
                 : ( is_numeric( $value )
-                    ? 'absint'
+                    ? 'intval'
                     : ( is_string( $value )
                         ? 'sanitize_text_field'
                         : null

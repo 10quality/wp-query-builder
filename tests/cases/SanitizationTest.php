@@ -213,4 +213,28 @@ class SanitizationTest extends TestCase
         // Assert
         $this->assertTrue(count($args) >= 1);
     }
+    /**
+     * Test negative interger sanitization
+     * @since 1.0.7
+     * @group sanitization
+     */
+    public function testSanitizeNegativeInt()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'test_table' )
+            ->where( [
+                'field' => '-123',
+            ] )
+            ->get();
+        $args_int = $wpdb->filter_prepare_args(-123);
+        $args_string = $wpdb->filter_prepare_args('-123');
+        // Assert
+        $this->assertTrue(count($args_int) >= 1);
+        $this->assertTrue(count($args_string) == 0);
+    }
 }
