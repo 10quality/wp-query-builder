@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.8
  */
 class QueryBuilderOperationsTest extends TestCase
 {
@@ -193,7 +193,7 @@ class QueryBuilderOperationsTest extends TestCase
     }
     /**
      * Test query builder
-     * @since 1.0.0
+     * @since 1.0.6
      * @group query
      * @group execution
      */
@@ -205,5 +205,49 @@ class QueryBuilderOperationsTest extends TestCase
         $var = $builder->rows_found();
         // Assert dummy results
         $this->assertEquals( 1, $var );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group execution
+     */
+    public function testQuery()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $var = $builder->query( 'SET sql_prop = 1;' );
+        // Assert dummy results
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'SET sql_prop = 1;',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group execution
+     */
+    public function testQueryBuilt()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $var = $builder
+            ->from( 'table' )
+            ->query();
+        // Assert dummy results
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'SELECT * FROM prefix_table',
+            $wpdb->get_query()
+        );
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * WP mockery class.
- * @version 1.0.6
+ * @version 1.0.8
  */
 class WPDB
 {
@@ -136,5 +136,10 @@ class WPDB
         return array_filter( static::$prepare_args, function($arg) use(&$value) {
             return $arg === $value;
         } );
+    }
+    public function query( $query )
+    {
+        static::$query = $query;
+        return true;
     }
 }

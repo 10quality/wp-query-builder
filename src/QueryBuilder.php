@@ -480,7 +480,7 @@ class QueryBuilder
         return intval( $wpdb->get_var( $query ) );
     }
     /**
-     * Retunrs column results from builder statements.
+     * Returns column results from builder statements.
      * @since 1.0.6
      * 
      * @global object $wpdb
@@ -511,6 +511,40 @@ class QueryBuilder
         $query = apply_filters( 'query_builder_col_query', $query );
         $query = apply_filters( 'query_builder_col_query_' . $this->id, $query );
         return $wpdb->get_col( $query, $x );
+    }
+    /**
+     * Returns flag indicating if query has been executed
+     * @since 1.0.8
+     * 
+     * @global object $wpdb
+     * 
+     * @param string $raw
+     * 
+     * @return bool
+     */
+    public function query( $raw = '' )
+    {
+        global $wpdb;
+        $this->builder = apply_filters( 'query_builder_query_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_query_builder_' . $this->id, $this->builder );
+        // Build
+        // Query
+        $query = $raw;
+        if ( empty( $query ) ) {
+            $this->_query_select( $query, false );
+            $this->_query_from( $query );
+            $this->_query_join( $query );
+            $this->_query_where( $query );
+            $this->_query_group( $query );
+            $this->_query_having( $query );
+            $this->_query_order( $query );
+            $this->_query_limit( $query );
+            $this->_query_offset( $query );
+        }
+        // Process
+        $query = apply_filters( 'query_builder_query_query', $query );
+        $query = apply_filters( 'query_builder_query_query_' . $this->id, $query );
+        return $wpdb->query( $query );
     }
     /**
      * Retunrs found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.
