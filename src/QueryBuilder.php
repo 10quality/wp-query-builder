@@ -561,6 +561,31 @@ class QueryBuilder
         return $this->query( $sql );
     }
     /**
+     * Returns flag indicating if delete query has been executed.
+     * @since 1.0.8
+     * 
+     * @global object $wpdb
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        global $wpdb;
+        $this->builder = apply_filters( 'query_builder_delete_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_delete_builder_' . $this->id, $this->builder );
+        // Build
+        // Query
+        $query = '';
+        $this->_query_delete( $query );
+        $this->_query_from( $query );
+        $this->_query_join( $query );
+        $this->_query_where( $query );
+        // Process
+        $query = apply_filters( 'query_builder_delete_query', $query );
+        $query = apply_filters( 'query_builder_delete_query_' . $this->id, $query );
+        return $wpdb->query( $query );
+    }
+    /**
      * Retunrs found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.
      * @since 1.0.6
      * 
@@ -691,6 +716,19 @@ class QueryBuilder
         global $wpdb;
         if ( $this->builder['offset'] )
             $query .= $wpdb->prepare( ' OFFSET %d', $this->builder['offset'] );
+    }
+    /**
+     * Builds query's delete statement.
+     * @since 1.0.0
+     * 
+     * @param string &$query
+     */
+    private function _query_delete( &$query )
+    {
+        $query .= trim( 'DELETE ' . ( count( $this->builder['join'] )
+            ? preg_replace( '/\s[aA][sS][\s\S]+.*?/', '', $this->builder['from'] )
+            : ''
+        ) );
     }
     /**
      * Sanitize value.

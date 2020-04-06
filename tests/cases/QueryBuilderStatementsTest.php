@@ -850,6 +850,114 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.8
      * @group query
      * @group building
+     * @group delete
+     */
+    public function testDelete()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'table' )->delete();
+        // Assert
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'DELETE FROM prefix_table',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group delete
+     */
+    public function testDeleteWhere()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'table' )
+            ->where( ['field' => 1] )
+            ->delete();
+        // Assert
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'DELETE FROM prefix_table WHERE field = %d',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @group delete
+     */
+    public function testDeleteJoin()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'asp' )
+            ->join( 'b as b', [
+                [
+                    'key_a' => 'b_id',
+                    'key_b' => 'b.id',
+                ]
+            ], true )
+            ->where( ['b.id' => null] )
+            ->delete();
+        // Assert
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'DELETE prefix_asp FROM prefix_asp LEFT JOIN prefix_b as b ON b_id = b.id WHERE b.id is null',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @group delete
+     */
+    public function testDeleteJoinWithAS()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'asp as asp' )
+            ->join( 'b as b', [
+                [
+                    'key_a' => 'asp.b_id',
+                    'key_b' => 'b.id',
+                ]
+            ], true )
+            ->where( ['b.id' => null] )
+            ->delete();
+        // Assert
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'DELETE prefix_asp FROM prefix_asp as asp LEFT JOIN prefix_b as b ON asp.b_id = b.id WHERE b.id is null',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
      * @group select
      */
     public function testSelectWildcardStatement()
