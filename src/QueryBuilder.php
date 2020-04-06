@@ -513,23 +513,23 @@ class QueryBuilder
         return $wpdb->get_col( $query, $x );
     }
     /**
-     * Returns flag indicating if query has been executed
+     * Returns flag indicating if query has been executed.
      * @since 1.0.8
      * 
      * @global object $wpdb
      * 
-     * @param string $raw
+     * @param string $sql
      * 
      * @return bool
      */
-    public function query( $raw = '' )
+    public function query( $sql = '' )
     {
         global $wpdb;
         $this->builder = apply_filters( 'query_builder_query_builder', $this->builder );
         $this->builder = apply_filters( 'query_builder_query_builder_' . $this->id, $this->builder );
         // Build
         // Query
-        $query = $raw;
+        $query = $sql;
         if ( empty( $query ) ) {
             $this->_query_select( $query, false );
             $this->_query_from( $query );
@@ -545,6 +545,20 @@ class QueryBuilder
         $query = apply_filters( 'query_builder_query_query', $query );
         $query = apply_filters( 'query_builder_query_query_' . $this->id, $query );
         return $wpdb->query( $query );
+    }
+    /**
+     * Returns flag indicating if query has been executed.
+     * @since 1.0.8
+     * 
+     * @see self::query()
+     * 
+     * @param string $sql
+     * 
+     * @return bool
+     */
+    public function raw( $sql )
+    {
+        return $this->query( $sql );
     }
     /**
      * Retunrs found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.

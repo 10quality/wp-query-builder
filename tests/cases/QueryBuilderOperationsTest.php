@@ -250,4 +250,25 @@ class QueryBuilderOperationsTest extends TestCase
             $wpdb->get_query()
         );
     }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group execution
+     */
+    public function testRaw()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Exec
+        $var = $builder->raw( 'SET sql_prop = 1;' );
+        // Assert dummy results
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'SET sql_prop = 1;',
+            $wpdb->get_query()
+        );
+    }
 }
