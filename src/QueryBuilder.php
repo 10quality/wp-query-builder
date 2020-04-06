@@ -176,7 +176,7 @@ class QueryBuilder
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             );
                     } else {
-                        throw new Exception( '"max" parameter must be indicated when using the BETWEEN operator.', 10202 );
+                        throw new Exception( '"max" or "key_b "parameter must be indicated when using the BETWEEN operator.', 10202 );
                     }
                 }
             }
@@ -257,7 +257,7 @@ class QueryBuilder
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             );
                     } else {
-                        throw new Exception( '"max" parameter must be indicated when using the BETWEEN operator.', 10202 );
+                        throw new Exception( '"max" or "key_c" parameter must be indicated when using the BETWEEN operator.', 10203 );
                     }
                 }
             }

@@ -75,6 +75,59 @@ class QueryBuilderConditionsTest extends TestCase
         );
     }
     /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group where
+     * @group between
+     * @group condition
+     * @expectedException Exception
+     * @expectedExceptionMessage "max" or "key_b "parameter must be indicated when using the BETWEEN operator.
+     */
+    public function testWhereBetweenException()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->where( [
+                'field' => [
+                    'operator' => 'Between',
+                    'min' => 1,
+                ],
+            ] );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @group between
+     * @group condition
+     * @expectedException Exception
+     * @expectedExceptionMessage "max" or "key_c" parameter must be indicated when using the BETWEEN operator.
+     */
+    public function testJoinBetweenException()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->join( 'b', [
+                [
+                    'operator' => 'between',
+                    'key_a' => 'a.price',
+                    'key_b' => 'b.min',
+                ],
+            ] );
+    }
+    /**
      * Returns testing data sets.
      * @since 1.0.8
      * 
