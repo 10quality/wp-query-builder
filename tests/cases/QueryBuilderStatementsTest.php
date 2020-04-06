@@ -846,6 +846,26 @@ class QueryBuilderStatementsTest extends TestCase
             ->join( 'join', [ ['key' => 'field', 'value' => 1] ], 'Yolo' );
     }
     /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group select
+     */
+    public function testSelectWildcardStatement()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->from( 'table' )->get();
+        // Assert
+        $this->assertEquals(
+            'SELECT * FROM prefix_table',
+            $wpdb->get_query()
+        );
+    }
+    /**
      * Returns testing data sets.
      * @since 1.0.8
      * 

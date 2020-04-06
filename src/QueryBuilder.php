@@ -538,9 +538,10 @@ class QueryBuilder
      */
     private function _query_select( &$query, $calc_rows = false )
     {
-        $query = 'SELECT ' . ( $calc_rows ? 'SQL_CALC_FOUND_ROWS ' : '' ) . ( is_array( $this->builder['select'] )
-            ? implode( ',' , $this->builder['select'] )
-            : $this->builder['select']
+        $query = 'SELECT ' . ( $calc_rows ? 'SQL_CALC_FOUND_ROWS ' : '' ) . (
+            is_array( $this->builder['select'] ) && count( $this->builder['select'] )
+                ? implode( ',' , $this->builder['select'] )
+                : '*'
         );
     }
     /**
