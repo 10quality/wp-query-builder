@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.8
  */
 class QueryBuilder
 {
@@ -165,19 +165,24 @@ class QueryBuilder
      * 
      * @global object $wpdb
      * 
-     * @param string $table      Join table.
-     * @param array  $args       Join arguments.
-     * @param bool   $left       Flag that indicates if it is "LEFT JOIN"
-     * @param bool   $add_prefix Should DB prefix be added.
+     * @throws Exception
+     * 
+     * @param string      $table      Join table.
+     * @param array       $args       Join arguments.
+     * @param bool|string $type       Flag that indicates if it is "LEFT or INNER", also accepts direct join string.
+     * @param bool        $add_prefix Should DB prefix be added.
      * 
      * @return \TenQuality\WP\Database\QueryBuilder this for chaining.
      */
-    public function join( $table, $args, $left = false, $add_prefix = true )
+    public function join( $table, $args, $type = false, $add_prefix = true )
     {
+        $type = is_string( $type ) ? strtoupper( trim( $type ) ) : ( $type ? 'LEFT' : '' );
+        if ( !in_array( $type, ['', 'LEFT', 'RIGHT', 'INNER', 'CROSS', 'LEFT OUTER', 'RIGHT OUTER'] ) )
+            throw new Exception( 'Invalid join type.', 10201 );
         global $wpdb;
         $join = [
             'table' => ( $add_prefix ? $wpdb->prefix : '' ) . $table,
-            'left'  => $left,
+            'type'  => $type,
             'on'    => [],
         ];
         foreach ( $args as $argument ) {
@@ -501,7 +506,7 @@ class QueryBuilder
     private function _query_join( &$query )
     {
         foreach ( $this->builder['join'] as $join ) {
-            $query .= ( $join['left'] ? ' LEFT JOIN ' : ' JOIN ' ) . $join['table'];
+            $query .= ( !empty( $join['type'] ) ? ' ' . $join['type'] . ' JOIN ' : ' JOIN ' ) . $join['table'];
             for ( $i = 0; $i < count( $join['on'] ); ++$i ) {
                 $query .= ( $i === 0 ? ' ON ' : ' ' . $join['on'][$i]['joint'] . ' ' )
                     . $join['on'][$i]['condition'];

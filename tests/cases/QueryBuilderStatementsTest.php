@@ -257,6 +257,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testJoinStatement()
     {
@@ -279,6 +280,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testLeftJoinStatement()
     {
@@ -301,6 +303,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testJoinNoPrefixStatement()
     {
@@ -323,6 +326,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testJoinMultipleStatement()
     {
@@ -348,6 +352,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testJoinNullOperatorStatement()
     {
@@ -373,6 +378,7 @@ class QueryBuilderStatementsTest extends TestCase
      * @since 1.0.0
      * @group query
      * @group building
+     * @group join
      */
     public function testJoinStringJointArrayOperatorStatement()
     {
@@ -792,5 +798,67 @@ class QueryBuilderStatementsTest extends TestCase
         $builder->select( 'test_field' )->rows_found();
         // Assert
         $this->assertEquals('SELECT FOUND_ROWS()', $wpdb->get_query());
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @dataProvider providerJoinTypesStatement
+     */
+    public function testJoinTypesStatement( $type, $expected_join )
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->join( 'join', [ ['key' => 'field', 'value' => 1] ], $type )
+            ->get();
+        // Assert
+        $this->assertEquals(
+            'SELECT * FROM prefix_table ' . $expected_join . ' prefix_join ON field = %d',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @expectedException Exception
+     * @expectedExceptionMessage Invalid join type.
+     */
+    public function testJoinStatementException()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->join( 'join', [ ['key' => 'field', 'value' => 1] ], 'Yolo' );
+    }
+    /**
+     * Returns testing data sets.
+     * @since 1.0.8
+     * 
+     * @see self::testJoinTypesStatement
+     */
+    public function providerJoinTypesStatement()
+    {
+        return [
+            ['right', 'RIGHT JOIN'],
+            ['right OUTeR', 'RIGHT OUTER JOIN'],
+            ['CROSS', 'CROSS JOIN'],
+            ['left', 'LEFT JOIN'],
+            ['left outer', 'LEFT OUTER JOIN'],
+            ['Inner', 'INNER JOIN'],
+            [' ', 'JOIN'],
+            ['', 'JOIN'],
+        ];
     }
 }
