@@ -369,7 +369,7 @@ class QueryBuilderStatementsTest extends TestCase
             ->get();
         // Assert
         $this->assertEquals(
-            'SELECT * FROM prefix_test_table JOIN prefix_test_join ON field_a is null AND field_b is not null',
+            'SELECT * FROM prefix_test_table JOIN prefix_test_join ON field_a is null AND field_b IS NOT null',
             $wpdb->get_query()
         );
     }

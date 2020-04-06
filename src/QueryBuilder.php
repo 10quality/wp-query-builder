@@ -148,7 +148,7 @@ class QueryBuilder
                     $key,
                     is_array( $value ) && isset( $value['operator'] ) ? strtoupper( $value['operator'] ) : ( $arg_value === null ? 'is' : '=' ),
                     is_array( $value ) && array_key_exists( 'key', $value )
-                        ? '`' . $value['key'] . '`'
+                        ? $value['key']
                         : ( is_array( $arg_value )
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
                             : ( $arg_value === null
@@ -170,7 +170,7 @@ class QueryBuilder
                             $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
                         $statement[] = 'AND';
                         $statement[] = array_key_exists( 'key_b', $value )
-                            ? '`' . $value['key_b'] . '`'
+                            ? $value['key_b']
                             : ( is_array( $arg_value )
                                 ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
@@ -215,15 +215,20 @@ class QueryBuilder
         ];
         foreach ( $args as $argument ) {
             $arg_value = isset( $argument['value'] ) ? $argument['value'] : null;
+            if ( array_key_exists( 'min', $argument ) )
+                $arg_value = $argument['min'];
             $sanitize_callback = array_key_exists( 'sanitize_callback', $argument ) ? $argument['sanitize_callback'] : true;
-            if ( $sanitize_callback )
+            if ( $sanitize_callback
+                && !array_key_exists( 'raw', $argument )
+                && !array_key_exists( 'key_b', $argument )
+            )
                 $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
             $statement = array_key_exists( 'raw', $argument )
-                ? $argument['raw']
-                : implode( ' ', [
+                ? [$argument['raw']]
+                : [
                     isset( $argument['key_a'] ) ? $argument['key_a'] : $argument['key'],
-                    isset( $argument['operator'] ) ? $argument['operator'] : ( $arg_value === null && ! isset( $argument['key_b'] ) ? 'is' : '=' ),
-                    isset( $argument['key_b'] )
+                    isset( $argument['operator'] ) ? strtoupper( $argument['operator'] ) : ( $arg_value === null && ! isset( $argument['key_b'] ) ? 'is' : '=' ),
+                    array_key_exists( 'key_b', $argument )
                         ? $argument['key_b']
                         : ( is_array( $arg_value )
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
@@ -232,10 +237,33 @@ class QueryBuilder
                                 : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             )
                         ),
-                ] );
+                ];
+            // Between?
+            if ( isset( $argument['operator'] ) ) {
+                $argument['operator'] = strtoupper( $argument['operator'] );
+                if ( strpos( $argument['operator'], 'BETWEEN' ) !== false ) {
+                    if ( array_key_exists( 'max', $argument ) || array_key_exists( 'key_c', $argument ) ) {
+                        if ( array_key_exists( 'max', $argument ) )
+                            $arg_value = $argument['max'];
+                        if ( array_key_exists( 'sanitize_callback2', $argument ) )
+                            $sanitize_callback = $argument['sanitize_callback2'];
+                        if ( $sanitize_callback && !array_key_exists( 'key_c', $argument ) )
+                            $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
+                        $statement[] = 'AND';
+                        $statement[] = array_key_exists( 'key_c', $argument )
+                            ? $argument['key_c']
+                            : ( is_array( $arg_value )
+                                ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
+                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                            );
+                    } else {
+                        throw new Exception( '"max" parameter must be indicated when using the BETWEEN operator.', 10202 );
+                    }
+                }
+            }
             $join['on'][] = [
                 'joint'     => isset( $argument['joint'] ) ? $argument['joint'] : 'AND',
-                'condition' => $statement,
+                'condition' => implode( ' ', $statement ),
             ];
         }
         $this->builder['join'][] = $join;

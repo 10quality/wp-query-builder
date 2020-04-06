@@ -46,6 +46,91 @@ class QueryBuilderConditionsTest extends TestCase
         );
     }
     /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group join
+     * @group between
+     * @group condition
+     * @dataProvider providerJoinBetween
+     * 
+     * @param array  $join
+     * @param string $expected_sql
+     */
+    public function testJoinBetween( $join, $expected_sql )
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'a' )
+            ->join( 'b', [$join] )
+            ->get();
+        // Assert
+        $this->assertEquals(
+            'SELECT * FROM prefix_a JOIN prefix_b ON ' . $expected_sql,
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Returns testing data sets.
+     * @since 1.0.8
+     * 
+     * @see self::testWhereBetween
+     */
+    public function providerJoinBetween()
+    {
+        return [
+            [
+                [
+                    'operator' => 'between',
+                    'key_a' => 'a.price',
+                    'key_b' => 'b.min',
+                    'key_c' => 'b.max',
+                ],
+                'a.price BETWEEN b.min AND b.max'
+            ],
+            [
+                [
+                    'operator' => 'BETWEEN',
+                    'key' => 'a.count',
+                    'value' => 10,
+                    'key_c' => 'b.max',
+                ],
+                'a.count BETWEEN %d AND b.max'
+            ],
+            [
+                [
+                    'operator' => 'Between',
+                    'key' => 'a.id',
+                    'min' => 1,
+                    'max' => 1000,
+                ],
+                'a.id BETWEEN %d AND %d'
+            ],
+            [
+                [
+                    'operator' => 'between',
+                    'key' => 'b.date',
+                    'min' => '2020-01-01',
+                    'max' => 20200303,
+                ],
+                'b.date BETWEEN %s AND %d'
+            ],
+            [
+                [
+                    'operator' => 'between',
+                    'key' => 'b.date',
+                    'max' => '2020-01-01',
+                    'min' => 20200303,
+                ],
+                'b.date BETWEEN %d AND %s'
+            ],
+        ];
+    }
+    /**
      * Returns testing data sets.
      * @since 1.0.8
      * 
@@ -60,7 +145,7 @@ class QueryBuilderConditionsTest extends TestCase
                     'operator' => 'between',
                     'max' => 123,
                 ],
-                'BETWEEN `a.min` AND %d'
+                'BETWEEN a.min AND %d'
             ],
             [
                 [
@@ -68,7 +153,7 @@ class QueryBuilderConditionsTest extends TestCase
                     'operator' => 'BETWEEN',
                     'key_b' => 'a.max',
                 ],
-                'BETWEEN `a.min` AND `a.max`'
+                'BETWEEN a.min AND a.max'
             ],
             [
                 [
@@ -92,7 +177,7 @@ class QueryBuilderConditionsTest extends TestCase
                     'operator' => 'BETWEEN',
                     'key_b' => 'a.max',
                 ],
-                'BETWEEN %d AND `a.max`'
+                'BETWEEN %d AND a.max'
             ],
         ];
     }
