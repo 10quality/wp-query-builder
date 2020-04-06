@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.8
  */
 class QueryBuilderStatementsTest extends TestCase
 {
@@ -806,6 +806,9 @@ class QueryBuilderStatementsTest extends TestCase
      * @group building
      * @group join
      * @dataProvider providerJoinTypesStatement
+     * 
+     * @param string $type          Join type.
+     * @param string $expected_join Expected built join.
      */
     public function testJoinTypesStatement( $type, $expected_join )
     {
