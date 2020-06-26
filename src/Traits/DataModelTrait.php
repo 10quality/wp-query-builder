@@ -7,9 +7,9 @@ use TenQuality\WP\Database\QueryBuilder;
 /**
  * Static methods for data models.
  *
- * @author Local Vibes <https://localvibes.co/>
- * @copyright Local Vibes
- * @package localvibes
+ * @author 10 Quality <info@10quality.com>
+ * @license MIT
+ * @package wp-query-builder
  * @version 1.0.9
  */
 trait DataModelTrait

@@ -31,7 +31,7 @@ class QueryBuilder
      * Builder constructor.
      * @since 1.0.0
      * 
-     * @param string $id
+     * @param string|null $id
      */
     public function __construct( $id = null )
     {

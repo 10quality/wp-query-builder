@@ -27,7 +27,10 @@
     "autoload": {
         "psr-4": {
             "TenQuality\\WP\\Database\\": "src"
-        }
+        },
+        "files": [
+            "src/Lib/functions.php"
+        ]
     },
     "minimum-stability": "dev"
 }
