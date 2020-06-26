@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Test.
  *
- * @author Local Vibes <https://localvibes.co/> Hyper Tribal
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
