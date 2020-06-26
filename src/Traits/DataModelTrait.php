@@ -10,7 +10,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author Local Vibes <https://localvibes.co/>
  * @copyright Local Vibes
  * @package localvibes
- * @version 1.0.7
+ * @version 1.0.9
  */
 trait DataModelTrait
 {
@@ -21,7 +21,7 @@ trait DataModelTrait
      * 
      * @param mixed $id
      * 
-     * @return \TenQuality\WP\Database\Abstracts\DataModel
+     * @return \TenQuality\WP\Database\Abstracts\DataModel|null
      */
     public static function find( $id )
     {
