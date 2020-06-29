@@ -7,7 +7,9 @@ if ( ! defined( 'OBJECT' ) )
     define( 'OBJECT', 'OBJECT' );
 if ( ! defined( 'ARRAY_A' ) )
     define( 'ARRAY_A', 'ARRAY_A' );
+$hooks = [];
 function apply_filters( $key, $value ) {
+    $GLOBALS['hooks'][$key] = $value;
     return $value;
 }
 function do_action( $key ) {
