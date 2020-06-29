@@ -127,6 +127,54 @@ class QueryBuilderConditionsTest extends TestCase
             ] );
     }
     /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group force
+     * @dataProvider providerWhereForceString
+     * 
+     * @param array  $where
+     * @param string $expected_sql
+     */
+    public function testWhereForceString( $where, $expected_sql )
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->where( $where )
+            ->get();
+        // Assert
+        $this->assertEquals( 'SELECT * FROM prefix_table WHERE ' . $expected_sql, $wpdb->get_query() );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.8
+     * @group query
+     * @group building
+     * @group force
+     * @dataProvider providerJoinForceString
+     * 
+     * @param array  $join
+     * @param string $expected_sql
+     */
+    public function testJoinForceString( $join, $expected_sql )
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $builder->select( '*' )
+            ->from( 'table' )
+            ->join( 'table2', $join )
+            ->get();
+        // Assert
+        $this->assertEquals( 'SELECT * FROM prefix_table JOIN prefix_table2 ON ' . $expected_sql, $wpdb->get_query() );
+    }
+    /**
      * Returns testing data sets.
      * @since 1.0.8
      * 
@@ -230,6 +278,109 @@ class QueryBuilderConditionsTest extends TestCase
                     'key_b' => 'a.max',
                 ],
                 'BETWEEN %d AND a.max'
+            ],
+        ];
+    }
+    /**
+     * Returns testing data sets.
+     * @since 1.0.8
+     * 
+     * @see self::testWhereForceString
+     */
+    public function providerWhereForceString()
+    {
+        return [
+            [
+                [
+                    'a' => 123,
+                ],
+                'a = %d'
+            ],
+            [
+                [
+                    'a' => [
+                        'value' => 123,
+                        'force_string' => true,
+                    ],
+                ],
+                'a = %s'
+            ],
+            [
+                [
+                    'a' => [
+                        'value' => 123,
+                        'force_string' => false,
+                    ],
+                ],
+                'a = %d'
+            ],
+            [
+                [
+                    'a' => [
+                        'value' => 123,
+                        'force_string' => false,
+                    ],
+                    'b' => [
+                        'value' => 123,
+                        'force_string' => true,
+                    ],
+                ],
+                'a = %d AND b = %s'
+            ],
+        ];
+    }
+    /**
+     * Returns testing data sets.
+     * @since 1.0.8
+     * 
+     * @see self::testJoinForceString
+     */
+    public function providerJoinForceString()
+    {
+        return [
+            [
+                [
+                    [
+                        'key' => 'a',
+                        'value' => 123,
+                    ],
+                ],
+                'a = %d'
+            ],
+            [
+                [
+                    [
+                        'key' => 'a',
+                        'value' => 123,
+                        'force_string' => true,
+                    ],
+                ],
+                'a = %s'
+            ],
+            [
+                [
+                    [
+                        'key' => 'a',
+                        'value' => 123,
+                        'force_string' => false,
+                    ],
+                ],
+                'a = %d'
+            ],
+            [
+                [
+                    [
+                        'key' => 'a',
+                        'value' => 123,
+                        'force_string' => false,
+                    ],
+                    [
+                        'key' => 'b',
+                        'value' => 687,
+                        'force_string' => true,
+                    ],
+                ],
+                'a = %d AND b = %s'
             ],
         ];
     }

@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.8
+ * @version 1.0.10
  */
 class QueryBuilder
 {
@@ -153,7 +153,7 @@ class QueryBuilder
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
                             : ( $arg_value === null
                                 ? 'null'
-                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                                : $wpdb->prepare( ( !is_array( $value ) || !array_key_exists( 'force_string', $value ) || !$value['force_string'] ) && is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             )
                         ),
                 ];
@@ -173,7 +173,7 @@ class QueryBuilder
                             ? $value['key_b']
                             : ( is_array( $arg_value )
                                 ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
-                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                                : $wpdb->prepare( ( !array_key_exists( 'force_string', $value ) || !$value['force_string'] ) && is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             );
                     } else {
                         throw new Exception( '"max" or "key_b "parameter must be indicated when using the BETWEEN operator.', 10202 );
@@ -234,7 +234,7 @@ class QueryBuilder
                             ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
                             : ( $arg_value === null
                                 ? 'null'
-                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                                : $wpdb->prepare( ( !array_key_exists( 'force_string', $argument ) || !$argument['force_string'] ) && is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             )
                         ),
                 ];
@@ -254,7 +254,7 @@ class QueryBuilder
                             ? $argument['key_c']
                             : ( is_array( $arg_value )
                                 ? ( '(\'' . implode( '\',\'', $arg_value ) . '\')' )
-                                : $wpdb->prepare( is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                                : $wpdb->prepare( ( !array_key_exists( 'force_string', $argument ) || !$argument['force_string'] ) && is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
                             );
                     } else {
                         throw new Exception( '"max" or "key_c" parameter must be indicated when using the BETWEEN operator.', 10203 );
