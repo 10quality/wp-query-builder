@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.10
+ * @version 1.0.11
  */
 class QueryBuilder
 {
@@ -27,6 +27,12 @@ class QueryBuilder
      * @var array
      */
     protected $builder;
+    /**
+     * Builder options.
+     * @since 1.0.11
+     * @var array
+     */
+    protected $options;
     /**
      * Builder constructor.
      * @since 1.0.0
@@ -46,6 +52,10 @@ class QueryBuilder
             'having'    => null,
             'limit'     => null,
             'offset'    => 0,
+        ];
+        $this->options = [
+            'wildcard' => '{%}',
+            'default_wildcard' => '{%}',
         ];
     }
     /**
@@ -131,6 +141,10 @@ class QueryBuilder
     {
         global $wpdb;
         foreach ( $args as $key => $value ) {
+            // Options - set
+            if ( is_array( $value ) && array_key_exists( 'wildcard', $value ) && !empty( $value['wildcard'] ) )
+                $this->options['wildcard'] = trim( $value['wildcard'] );
+            // Value
             $arg_value = is_array( $value ) && array_key_exists( 'value', $value ) ? $value['value'] : $value;
             if ( is_array( $value ) && array_key_exists( 'min', $value ) )
                 $arg_value = $value['min'];
@@ -184,6 +198,9 @@ class QueryBuilder
                 'joint'     => is_array( $value ) && isset( $value['joint'] ) ? $value['joint'] : 'AND',
                 'condition' => implode( ' ', $statement ),
             ];
+            // Options - reset
+            if ( is_array( $value ) && array_key_exists( 'wildcard', $value ) && !empty( $value['wildcard'] ) )
+                $this->options['wildcard'] = $this->options['default_wildcard'];
         }
         return $this;
     }
@@ -214,6 +231,10 @@ class QueryBuilder
             'on'    => [],
         ];
         foreach ( $args as $argument ) {
+            // Options - set
+            if ( array_key_exists( 'wildcard', $argument ) && !empty( $argument['wildcard'] ) )
+                $this->options['wildcard'] = trim( $argument['wildcard'] );
+            // Value
             $arg_value = isset( $argument['value'] ) ? $argument['value'] : null;
             if ( array_key_exists( 'min', $argument ) )
                 $arg_value = $argument['min'];
@@ -265,6 +286,9 @@ class QueryBuilder
                 'joint'     => isset( $argument['joint'] ) ? $argument['joint'] : 'AND',
                 'condition' => implode( ' ', $statement ),
             ];
+            // Options - reset
+            if ( array_key_exists( 'wildcard', $argument ) && !empty( $argument['wildcard'] ) )
+                $this->options['wildcard'] = $this->options['default_wildcard'];
         }
         $this->builder['join'][] = $join;
         return $this;
@@ -770,7 +794,10 @@ class QueryBuilder
     private function _builder_esc_like( $value )
     {
         global $wpdb;
-        return $wpdb->esc_like( $value );
+        $wildcard = $this->options['wildcard'];
+        return implode( '%', array_map( function( $part ) use( &$wpdb, &$wildcard ) {
+            return $wpdb->esc_like( $part );
+        }, explode( $wildcard, $value ) ) ) ;
     }
     /**
      * Returns escaped value for LIKE comparison and appends wild card at the beggining.

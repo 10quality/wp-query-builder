@@ -14,6 +14,14 @@ use PHPUnit\Framework\TestCase;
 class QueryBuilderOperationsTest extends TestCase
 {
     /**
+     * Reset static.
+     * @since 1.0.11
+     */
+    public function tearDown()
+    {
+        WPDB::reset();
+    }
+    /**
      * Test query builder
      * @since 1.0.0
      * @group query

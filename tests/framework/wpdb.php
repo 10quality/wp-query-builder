@@ -1,7 +1,7 @@
 <?php
 /**
  * WP mockery class.
- * @version 1.0.8
+ * @version 1.0.11
  */
 class WPDB
 {
@@ -16,7 +16,7 @@ class WPDB
      * @since 1.0.0
      * @var string
      */
-    public static $prepare_args = '';
+    public static $prepare_args = [];
     /**
      * Last table used.
      * @since 1.0.0
@@ -30,7 +30,10 @@ class WPDB
         $args = func_get_args();
         $query = $args[0];
         unset( $args[0] );
-        static::$prepare_args = $args;
+        foreach ( $args as $value) {
+            if ( !in_array( $value, static::$prepare_args ) )
+                static::$prepare_args[] = $value;
+        }
         return $query;
     }
     public function get_results( $query, $output = OBJECT )
@@ -141,5 +144,13 @@ class WPDB
     {
         static::$query = $query;
         return true;
+    }
+    public function get_prepare_args()
+    {
+        return static::$prepare_args;
+    }
+    public static function reset()
+    {
+        static::$prepare_args = [];
     }
 }
