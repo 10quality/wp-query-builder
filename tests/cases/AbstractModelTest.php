@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.12
  */
 class AbstractModelTest extends TestCase
 {
@@ -168,5 +168,26 @@ class AbstractModelTest extends TestCase
         $this->assertNotEmpty( $model->updated_at );
         $this->assertTrue( $created_at && $created_at->format( $date_format ) === $model->created_at );
         $this->assertTrue( $updated_at && $updated_at->format( $date_format ) === $model->updated_at );
+    }
+    /**
+     * Test abstract
+     * @since 1.0.12
+     * @group abstract
+     * @group model
+     * @group update
+     */
+    public function testUpdate()
+    {
+        // Preapre
+        global $wpdb;
+        $model = new Model( [
+            'model_id'  => 888999,
+            'name'  => 'test',
+        ] );
+        // Exec
+        $flag = $model->update( ['name' => 'updated'] );
+        // Assert
+        $this->assertTrue( $flag );
+        $this->assertEquals( 'updated', $model->name );
     }
 }

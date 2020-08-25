@@ -12,7 +12,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.12
  */
 abstract class DataModel extends Model
 {
@@ -180,6 +180,37 @@ abstract class DataModel extends Model
         if ( $deleted )
             do_action( 'data_model_' . $this->table . '_deleted', $this );
         return $deleted;
+    }
+    /**
+     * Updates specific columns of the model (not the whole object like save()).
+     * @since 1.0.12
+     *
+     * @param array $data Data to update.
+     *
+     * @return bool
+     */
+    public function update( $data = [] )
+    {
+        // If not data, let save() handle this
+        if ( empty( $data ) || !is_array( $data ) ) {
+            return $this->save();
+        }
+        global $wpdb;
+        $success = false;
+        $protected = $this->protected_properties();
+        if ( $this->{$this->primary_key} ) {
+            // Update
+            $success = $wpdb->update( $this->tablename, array_filter( $data, function( $key ) use( $protected ) {
+                return ! in_array( $key , $protected );
+            }, ARRAY_FILTER_USE_KEY ), [$this->primary_key => $this->attributes[$this->primary_key]] );
+            if ( $success ) {
+                foreach ( $data as $key => $value ) {
+                    $this->$key = $value;
+                }
+                do_action( 'data_model_' . $this->table . '_updated', $this );
+            }
+        }
+        return $success;
     }
     /**
      * Deletes where query.
