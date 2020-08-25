@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.8
+ * @version 1.0.12
  */
 class QueryBuilderOperationsTest extends TestCase
 {
@@ -275,6 +275,33 @@ class QueryBuilderOperationsTest extends TestCase
         $this->assertTrue( $var );
         $this->assertEquals(
             'SET sql_prop = 1;',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.12
+     * @group query
+     * @group building
+     * @group set
+     * @group update
+     */
+    public function testUpdate()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'up' )
+            ->set( [
+                'a' => 'abc',
+            ] )
+            ->update();
+        // Assert
+        $this->assertInternalType( 'bool', $var );
+        $this->assertTrue( $var );
+        $this->assertEquals(
+            'UPDATE prefix_up SET a = %s',
             $wpdb->get_query()
         );
     }

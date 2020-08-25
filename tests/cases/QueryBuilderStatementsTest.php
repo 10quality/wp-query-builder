@@ -981,6 +981,126 @@ class QueryBuilderStatementsTest extends TestCase
         );
     }
     /**
+     * Test query builder
+     * @since 1.0.12
+     * @group query
+     * @group building
+     * @group set
+     * @group update
+     */
+    public function testUpdateSetTypes()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'set1' )
+            ->set( [
+                'a' => 'c',
+                'b' => 123,
+                'c' => null,
+                'd' => [7,8],
+            ] )
+            ->update();
+        // Assert
+        $this->assertEquals(
+            'UPDATE prefix_set1 SET a = %s,b = %d,c = null,d = \'7,8\'',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.12
+     * @group query
+     * @group building
+     * @group set
+     * @group update
+     */
+    public function testUpdateSetRaw()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'set2' )
+            ->set( [
+                'raw' => 'c = 1',
+                'b' => [
+                    'raw' => 'c+1',
+                ],
+            ] )
+            ->update();
+        // Assert
+        $this->assertEquals(
+            'UPDATE prefix_set2 SET c = 1,b = c+1',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.12
+     * @group query
+     * @group building
+     * @group set
+     * @group update
+     */
+    public function testUpdateSetForceString()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'set2' )
+            ->set( [
+                'a' => [
+                    'value' => 1,
+                    'force_string' => true,
+                ],
+            ] )
+            ->update();
+        // Assert
+        $this->assertEquals(
+            'UPDATE prefix_set2 SET a = %s',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test query builder
+     * @since 1.0.12
+     * @group query
+     * @group building
+     * @group set
+     * @group join
+     * @group update
+     */
+    public function testUpdateJoinWhere()
+    {
+        // Preapre
+        global $wpdb;
+        $builder = QueryBuilder::create( 'test' );
+        // Prepare
+        $var = $builder->from( 'u1' )
+            ->join( 'u2', [
+                [
+                    'key_a' => 'u1.id',
+                    'key_b' => 'u2.id',
+                ]
+            ] )
+            ->set( [
+                'raw' => 'u1.title = u2.title',
+                'u1.parent' => 'has_parent',
+            ] )
+            ->where( [
+                'u1.status' => 'test',
+            ] )
+            ->update();
+        // Assert
+        $this->assertEquals(
+            'UPDATE prefix_u1,prefix_u2 JOIN prefix_u2 ON u1.id = u2.id SET u1.title = u2.title,u1.parent = %s WHERE u1.status = %s',
+            $wpdb->get_query()
+        );
+    }
+    /**
      * Returns testing data sets.
      * @since 1.0.8
      * 

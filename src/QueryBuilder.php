@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.11
+ * @version 1.0.12
  */
 class QueryBuilder
 {
@@ -52,6 +52,7 @@ class QueryBuilder
             'having'    => null,
             'limit'     => null,
             'offset'    => 0,
+            'set'       => [],
         ];
         $this->options = [
             'wildcard' => '{%}',
@@ -366,6 +367,49 @@ class QueryBuilder
         return $this;
     }
     /**
+     * Adds set statement (for update).
+     * @since 1.0.12
+     * 
+     * @global object $wpdb
+     * 
+     * @param array $args Multiple where arguments.
+     * 
+     * @return \TenQuality\WP\Database\QueryBuilder this for chaining.
+     */
+    public function set( $args )
+    {
+        global $wpdb;
+        foreach ( $args as $key => $value ) {
+            // Value
+            $arg_value = is_array( $value ) && array_key_exists( 'value', $value ) ? $value['value'] : $value;
+            $sanitize_callback = is_array( $value ) && array_key_exists( 'sanitize_callback', $value )
+                ? $value['sanitize_callback']
+                : true;
+            if ( $sanitize_callback
+                && $key !== 'raw'
+                && ( !is_array( $value ) || !array_key_exists( 'raw', $value ) )
+            )
+                $arg_value = $this->sanitize_value( $sanitize_callback, $arg_value );
+            $statement = $key === 'raw'
+                ? [$arg_value]
+                : [
+                    $key,
+                    '=',
+                    is_array( $value ) && array_key_exists( 'raw', $value )
+                        ? $value['raw']
+                        : ( is_array( $arg_value )
+                            ? ( '\'' . implode( ',', $arg_value ) . '\'' )
+                            : ( $arg_value === null
+                                ? 'null'
+                                : $wpdb->prepare( ( !is_array( $value ) || !array_key_exists( 'force_string', $value ) || !$value['force_string'] ) && is_numeric( $arg_value ) ? '%d' : '%s' , $arg_value )
+                            )
+                        ),
+                ];
+            $this->builder['set'][] = implode( ' ', $statement );
+        }
+        return $this;
+    }
+    /**
      * Retunrs results from builder statements.
      * @since 1.0.0
      * 
@@ -610,6 +654,31 @@ class QueryBuilder
         return $wpdb->query( $query );
     }
     /**
+     * Returns flag indicating if update query has been executed.
+     * @since 1.0.12
+     * 
+     * @global object $wpdb
+     * 
+     * @return bool
+     */
+    public function update()
+    {
+        global $wpdb;
+        $this->builder = apply_filters( 'query_builder_update_builder', $this->builder );
+        $this->builder = apply_filters( 'query_builder_update_builder_' . $this->id, $this->builder );
+        // Build
+        // Query
+        $query = '';
+        $this->_query_update( $query );
+        $this->_query_join( $query );
+        $this->_query_set( $query );
+        $this->_query_where( $query );
+        // Process
+        $query = apply_filters( 'query_builder_update_query', $query );
+        $query = apply_filters( 'query_builder_update_query_' . $this->id, $query );
+        return $wpdb->query( $query );
+    }
+    /**
      * Retunrs found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.
      * @since 1.0.6
      * 
@@ -743,7 +812,7 @@ class QueryBuilder
     }
     /**
      * Builds query's delete statement.
-     * @since 1.0.0
+     * @since 1.0.8
      * 
      * @param string &$query
      */
@@ -753,6 +822,31 @@ class QueryBuilder
             ? preg_replace( '/\s[aA][sS][\s\S]+.*?/', '', $this->builder['from'] )
             : ''
         ) );
+    }
+    /**
+     * Builds query's update statement.
+     * @since 1.0.12
+     * 
+     * @param string &$query
+     */
+    private function _query_update( &$query )
+    {
+        $query .= trim( 'UPDATE ' . ( count( $this->builder['join'] )
+            ? $this->builder['from'] . ',' . implode( ',', array_map( function( $join ) {
+                return $join['table'];
+            }, $this->builder['join'] ) )
+            : $this->builder['from']
+        ) );
+    }
+    /**
+     * Builds query's set statement.
+     * @since 1.0.12
+     * 
+     * @param string &$query
+     */
+    private function _query_set( &$query )
+    {
+        $query .= $this->builder['set'] ? ' SET ' . implode( ',', $this->builder['set'] ) : '';
     }
     /**
      * Sanitize value.
