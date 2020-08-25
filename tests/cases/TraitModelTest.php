@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.7
+ * @version 1.0.12
  */
 class TraitModelTest extends TestCase
 {
@@ -111,5 +111,45 @@ class TraitModelTest extends TestCase
         // Assert
         $this->assertInternalType( 'array', $collection );
         $this->assertInstanceOf( 'Model', $collection[0] );
+    }
+    /**
+     * Test abstract
+     * @since 1.0.12
+     * @group model
+     * @group trait
+     * @group update
+     */
+    public function testUpdate()
+    {
+        // Preapre
+        global $wpdb;
+        // Exec
+        $flag = Model::update_all( ['status' => 'active'] );
+        // Assert
+        $this->assertInternalType( 'bool', $flag );
+        $this->assertTrue( $flag );
+        $this->assertEquals(
+            'UPDATE prefix_' . Model::TABLE . ' SET status = %s',
+            $wpdb->get_query()
+        );
+    }
+    /**
+     * Test abstract
+     * @since 1.0.12
+     * @group model
+     * @group trait
+     * @group update
+     */
+    public function testUpdateWhere()
+    {
+        // Preapre
+        global $wpdb;
+        // Exec
+        $flag = Model::update_all( ['status' => 'active'], ['type' => 'yolo'] );
+        // Assert
+        $this->assertEquals(
+            'UPDATE prefix_' . Model::TABLE . ' SET status = %s WHERE type = %s',
+            $wpdb->get_query()
+        );
     }
 }

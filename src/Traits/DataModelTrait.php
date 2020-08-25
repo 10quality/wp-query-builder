@@ -10,7 +10,7 @@ use TenQuality\WP\Database\QueryBuilder;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.9
+ * @version 1.0.12
  */
 trait DataModelTrait
 {
@@ -154,5 +154,22 @@ trait DataModelTrait
                 ->from( self::TABLE . ' as `' . self::TABLE . '`' )
                 ->get( ARRAY_A )
         );
+    }
+    /**
+     * Returns query results from mass update.
+     * @since 1.0.12
+     * 
+     * @param array $set   Set of column => data to update.
+     * @param array $where Where condition.
+     * 
+     * @return \TenQuality\WP\Database\Abstracts\DataModel|null
+     */
+    public static function update_all( $set, $where = [] )
+    {
+        $builder = new QueryBuilder( self::TABLE . '_static_update' );
+        return $builder->from( self::TABLE )
+            ->set( $set )
+            ->where( $where )
+            ->update();
     }
 }
