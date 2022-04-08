@@ -212,4 +212,19 @@ abstract class DataModel extends Model
         }
         return $success;
     }
+    /**
+     * Deletes where query.
+     * @since 1.0.0
+     * 
+     * @global object Wordpress Data base accessor.
+     * 
+     * @param array $args Query arguments.
+     * 
+     * @return bool
+     */
+    protected function _delete_where( $args )
+    {
+        global $wpdb;
+        return $wpdb->delete( $this->tablename, $args );
+    }
 }
