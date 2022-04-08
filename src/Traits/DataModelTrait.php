@@ -172,4 +172,27 @@ trait DataModelTrait
             ->where( $where )
             ->update();
     }
+    
+    
+    /**
+     * Update data by ID
+     * @param int $id
+     * @param array $data
+     * @return bool 
+     */
+    public static function updateData($id, $data)
+    {
+        $model = new self([], $id);
+        $model->load();
+        return $model->update($data);
+    }
+    /**
+     * Destroy Model statically 
+     */
+    public static function destroy($id)
+    {
+        $model = new self([], $id);
+        $model->load();
+        return $model->delete();
+    }
 }
