@@ -221,7 +221,7 @@ abstract class DataModel extends Model
      */
     public static function updateData($id, $data)
     {
-        $model = new self([], Request::input('id'));
+        $model = new self([], $id);
         $model->load();
         return $model->update($data);
     }
