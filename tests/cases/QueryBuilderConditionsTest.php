@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.8
+ * @version 1.0.13
  */
 class QueryBuilderConditionsTest extends TestCase
 {
@@ -17,7 +17,7 @@ class QueryBuilderConditionsTest extends TestCase
      * Reset static.
      * @since 1.0.11
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         WPDB::reset();
     }
@@ -36,7 +36,7 @@ class QueryBuilderConditionsTest extends TestCase
      */
     public function testWhereBetween( $between, $expected_sql )
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -67,7 +67,7 @@ class QueryBuilderConditionsTest extends TestCase
      */
     public function testJoinBetween( $join, $expected_sql )
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -89,12 +89,13 @@ class QueryBuilderConditionsTest extends TestCase
      * @group where
      * @group between
      * @group condition
-     * @expectedException Exception
-     * @expectedExceptionMessage "max" or "key_b "parameter must be indicated when using the BETWEEN operator.
      */
     public function testWhereBetweenException()
     {
-        // Preapre
+        // Assert
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('"max" or "key_b "parameter must be indicated when using the BETWEEN operator.');
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -102,7 +103,7 @@ class QueryBuilderConditionsTest extends TestCase
             ->from( 'table' )
             ->where( [
                 'field' => [
-                    'operator' => 'Between',
+                    'operator' => 'BETWEEN',
                     'min' => 1,
                 ],
             ] );
@@ -115,12 +116,13 @@ class QueryBuilderConditionsTest extends TestCase
      * @group join
      * @group between
      * @group condition
-     * @expectedException Exception
-     * @expectedExceptionMessage "max" or "key_c" parameter must be indicated when using the BETWEEN operator.
      */
     public function testJoinBetweenException()
     {
-        // Preapre
+        // Assert
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('"max" or "key_c" parameter must be indicated when using the BETWEEN operator.');
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -147,7 +149,7 @@ class QueryBuilderConditionsTest extends TestCase
      */
     public function testWhereForceString( $where, $expected_sql )
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -171,7 +173,7 @@ class QueryBuilderConditionsTest extends TestCase
      */
     public function testJoinForceString( $join, $expected_sql )
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare

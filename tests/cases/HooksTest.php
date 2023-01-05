@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.10
+ * @version 1.0.13
  */
 class HooksTest extends TestCase
 {
@@ -16,7 +16,7 @@ class HooksTest extends TestCase
      * Resets global hooks.
      * @since 1.0.10
      */
-    public function setUp()
+    public function setUp(): void
     {
         $GLOBALS['hooks'] = [];
     }
@@ -33,12 +33,12 @@ class HooksTest extends TestCase
         // Assert
         global $hooks;
         $this->assertArrayHasKey( 'query_builder_get_builder', $hooks );
-        $this->assertInternalType( 'array', $hooks['query_builder_get_builder'] );
+        $this->assertIsArray( $hooks['query_builder_get_builder'] );
         $this->assertArrayHasKey( 'query_builder_get_builder_test_get', $hooks );
-        $this->assertInternalType( 'array', $hooks['query_builder_get_builder_test_get'] );
+        $this->assertIsArray( $hooks['query_builder_get_builder_test_get'] );
         $this->assertArrayHasKey( 'query_builder_get_query', $hooks );
-        $this->assertInternalType( 'string', $hooks['query_builder_get_query'] );
+        $this->assertIsString( $hooks['query_builder_get_query'] );
         $this->assertArrayHasKey( 'query_builder_get_query_test_get', $hooks );
-        $this->assertInternalType( 'string', $hooks['query_builder_get_query_test_get'] );
+        $this->assertIsString( $hooks['query_builder_get_query_test_get'] );
     }
 }

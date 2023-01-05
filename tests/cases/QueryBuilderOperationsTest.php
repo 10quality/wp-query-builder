@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.12
+ * @version 1.0.13
  */
 class QueryBuilderOperationsTest extends TestCase
 {
@@ -17,7 +17,7 @@ class QueryBuilderOperationsTest extends TestCase
      * Reset static.
      * @since 1.0.11
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         WPDB::reset();
     }
@@ -29,13 +29,13 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testGet()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $results = $builder->get();
         // Assert dummy results
-        $this->assertInternalType( 'array', $results );
-        $this->assertInternalType( 'object', $results[1] );
+        $this->assertIsArray( $results );
+        $this->assertIsObject( $results[1] );
         $this->assertInstanceOf( 'stdClass', $results[1] );
     }
     /**
@@ -46,13 +46,13 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testGetArray()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $results = $builder->get( ARRAY_A );
         // Assert dummy results
-        $this->assertInternalType( 'array', $results );
-        $this->assertInternalType( 'array', $results[1] );
+        $this->assertIsArray( $results );
+        $this->assertIsArray( $results[1] );
     }
     /**
      * Test query builder
@@ -62,15 +62,15 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testGetCallable()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $results = $builder->get( ARRAY_A, function( $data ) {
             return new Model( $data );
         } );
         // Assert dummy results
-        $this->assertInternalType( 'array', $results );
-        $this->assertInternalType( 'object', $results[1] );
+        $this->assertIsArray( $results );
+        $this->assertIsObject( $results[1] );
         $this->assertInstanceOf( 'Model', $results[1] );
     }
     /**
@@ -81,12 +81,12 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testFirst()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $row = $builder->first();
         // Assert dummy results
-        $this->assertInternalType( 'object', $row );
+        $this->assertIsObject( $row );
     }
     /**
      * Test query builder
@@ -96,12 +96,12 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testFirstArray()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $row = $builder->first( ARRAY_A );
         // Assert dummy results
-        $this->assertInternalType( 'array', $row );
+        $this->assertIsArray( $row );
     }
     /**
      * Test query builder
@@ -111,7 +111,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testValue()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->value();
@@ -126,7 +126,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testCount()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Exec
@@ -146,7 +146,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testValueX()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->value( 1, 0 );
@@ -161,7 +161,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testValueY()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->value( 0, 1 );
@@ -176,7 +176,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testCol()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $columns = $builder->col();
@@ -191,7 +191,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testCol2()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $columns = $builder->col(1);
@@ -206,7 +206,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testRowFound()
     {
-        // Preapre
+        // Prepare
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->rows_found();
@@ -221,13 +221,13 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testQuery()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->query( 'SET sql_prop = 1;' );
         // Assert dummy results
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'SET sql_prop = 1;',
@@ -242,7 +242,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testQueryBuilt()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Exec
@@ -250,7 +250,7 @@ class QueryBuilderOperationsTest extends TestCase
             ->from( 'table' )
             ->query();
         // Assert dummy results
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'SELECT * FROM prefix_table',
@@ -265,13 +265,13 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testRaw()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Exec
         $var = $builder->raw( 'SET sql_prop = 1;' );
         // Assert dummy results
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'SET sql_prop = 1;',
@@ -288,7 +288,7 @@ class QueryBuilderOperationsTest extends TestCase
      */
     public function testUpdate()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -298,7 +298,7 @@ class QueryBuilderOperationsTest extends TestCase
             ] )
             ->update();
         // Assert
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'UPDATE prefix_up SET a = %s',

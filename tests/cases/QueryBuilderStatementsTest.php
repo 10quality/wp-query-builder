@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.8
+ * @version 1.0.13
  */
 class QueryBuilderStatementsTest extends TestCase
 {
@@ -17,7 +17,7 @@ class QueryBuilderStatementsTest extends TestCase
      * Reset static.
      * @since 1.0.11
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         WPDB::reset();
     }
@@ -29,7 +29,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testSelectStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -48,7 +48,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testFromStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -68,7 +68,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testFromNoPrefixStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -88,7 +88,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -110,7 +110,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereNullStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -132,7 +132,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereOperatorStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -154,7 +154,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereNotNullStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -176,7 +176,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereMultipleStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -198,7 +198,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereMultipleJointStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -223,7 +223,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereStringStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -245,7 +245,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereArrayStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -268,7 +268,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -291,7 +291,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testLeftJoinStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -314,7 +314,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinNoPrefixStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -337,7 +337,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinMultipleStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -363,7 +363,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinNullOperatorStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -389,7 +389,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinStringJointArrayOperatorStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -414,7 +414,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testLimitStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -436,7 +436,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testOffsetStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -458,7 +458,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testLimitOffsetStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -481,7 +481,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testGroupByStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -503,7 +503,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testGroupByMultipleStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -526,7 +526,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testOrderByStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -548,7 +548,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testOrderByMultipleDescStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -571,7 +571,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testHavingStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -593,7 +593,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testKeywordsStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -615,7 +615,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testKeywordsMultipleStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -637,7 +637,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testKeywordsSeparatorStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -659,7 +659,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testKeywordsSeparatorMultipleStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -681,7 +681,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testAllStatements()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -710,7 +710,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testWhereRawStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -738,7 +738,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinRawStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -760,7 +760,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testSelectCalcRowsStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -779,7 +779,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testColCalcRowsStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -798,7 +798,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testRowsFoundStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -819,7 +819,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testJoinTypesStatement( $type, $expected_join )
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -839,12 +839,13 @@ class QueryBuilderStatementsTest extends TestCase
      * @group query
      * @group building
      * @group join
-     * @expectedException Exception
-     * @expectedExceptionMessage Invalid join type.
      */
     public function testJoinStatementException()
     {
-        // Preapre
+        // Assert
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid join type.');
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -861,13 +862,13 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testDelete()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
         $var = $builder->from( 'table' )->delete();
         // Assert
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'DELETE FROM prefix_table',
@@ -883,7 +884,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testDeleteWhere()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -891,7 +892,7 @@ class QueryBuilderStatementsTest extends TestCase
             ->where( ['field' => 1] )
             ->delete();
         // Assert
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'DELETE FROM prefix_table WHERE field = %d',
@@ -908,7 +909,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testDeleteJoin()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -922,7 +923,7 @@ class QueryBuilderStatementsTest extends TestCase
             ->where( ['b.id' => null] )
             ->delete();
         // Assert
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'DELETE prefix_asp FROM prefix_asp LEFT JOIN prefix_b as b ON b_id = b.id WHERE b.id is null',
@@ -939,7 +940,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testDeleteJoinWithAS()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -953,7 +954,7 @@ class QueryBuilderStatementsTest extends TestCase
             ->where( ['b.id' => null] )
             ->delete();
         // Assert
-        $this->assertInternalType( 'bool', $var );
+        $this->assertIsBool( $var );
         $this->assertTrue( $var );
         $this->assertEquals(
             'DELETE prefix_asp FROM prefix_asp as asp LEFT JOIN prefix_b as b ON asp.b_id = b.id WHERE b.id is null',
@@ -969,7 +970,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testSelectWildcardStatement()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -990,7 +991,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testUpdateSetTypes()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -1018,7 +1019,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testUpdateSetRaw()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -1046,7 +1047,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testUpdateSetForceString()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -1075,7 +1076,7 @@ class QueryBuilderStatementsTest extends TestCase
      */
     public function testUpdateJoinWhere()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare

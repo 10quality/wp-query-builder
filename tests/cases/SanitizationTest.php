@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.11
+ * @version 1.0.13
  */
 class SanitizationTest extends TestCase
 {
@@ -17,7 +17,7 @@ class SanitizationTest extends TestCase
      * Reset static.
      * @since 1.0.11
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         WPDB::reset();
     }
@@ -28,7 +28,7 @@ class SanitizationTest extends TestCase
      */
     public function testSanitizeInt()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -52,7 +52,7 @@ class SanitizationTest extends TestCase
      */
     public function testSanitizeFloat()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -76,7 +76,7 @@ class SanitizationTest extends TestCase
      */
     public function testSanitizeString()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -98,7 +98,7 @@ class SanitizationTest extends TestCase
      */
     public function testSanitizeCustomCallable()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -123,7 +123,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLike()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -149,7 +149,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeWildValue()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -175,7 +175,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeValueWild()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -201,7 +201,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeWildWild()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -227,7 +227,7 @@ class SanitizationTest extends TestCase
      */
     public function testSanitizeNegativeInt()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Run
@@ -251,7 +251,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -277,7 +277,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeCustomWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -304,7 +304,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeWildcardDefault()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -330,7 +330,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeNoWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -356,7 +356,7 @@ class SanitizationTest extends TestCase
      */
     public function testJoinEscLikeWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -387,7 +387,7 @@ class SanitizationTest extends TestCase
      */
     public function testJoinEscLikeCustomWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare
@@ -419,7 +419,7 @@ class SanitizationTest extends TestCase
      */
     public function testEscLikeMultipleWildcard()
     {
-        // Preapre
+        // Prepare
         global $wpdb;
         $builder = QueryBuilder::create( 'test' );
         // Prepare

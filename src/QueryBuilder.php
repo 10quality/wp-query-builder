@@ -11,7 +11,7 @@ use Exception;
  * @author 10 Quality <info@10quality.com>
  * @license MIT
  * @package wp-query-builder
- * @version 1.0.12
+ * @version 1.0.13
  */
 class QueryBuilder
 {
@@ -869,7 +869,7 @@ class QueryBuilder
                         : null
                     )
                 );
-        if ( strpos( $callback, '_builder' ) !== false )
+        if ( $callback && strpos( $callback, '_builder' ) !== false )
             $callback = [&$this, $callback];
         if ( is_array( $value ) )
             for ( $i = count( $value ) -1; $i >= 0; --$i ) {
