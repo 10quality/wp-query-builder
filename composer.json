@@ -32,5 +32,10 @@
             "src/Lib/functions.php"
         ]
     },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
+    },
     "minimum-stability": "dev"
 }
