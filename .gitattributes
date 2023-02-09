@@ -1,6 +1,7 @@
 /tests/         export-ignore
 /phpunit.xml    export-ignore
 .*              export-ignore
+CONTRIBUTING.md export-ignore
 
 # Set the line ending configuration
 * text=lf
