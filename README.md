@@ -32,7 +32,7 @@ $books = wp_query_builder()
     ->where( ['post_type' => 'book'] )
     ->get();
 
-foreach ($books as $book) {
+foreach ( $books as $book ) {
     echo $book->ID;
     echo $book->name;
 }
