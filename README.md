@@ -26,15 +26,15 @@ Please read the [wiki](https://github.com/10quality/wp-query-builder/wiki) for d
 Quick snippet sample:
 ```php
 $books = wp_query_builder()
-	->select( 'ID' )
-	->select( 'post_name AS name' )
+    ->select( 'ID' )
+    ->select( 'post_name AS name' )
     ->from( 'posts' )
     ->where( ['post_type' => 'book'] )
     ->get();
 
 foreach ($books as $book) {
-	echo $book->ID;
-	echo $book->name;
+    echo $book->ID;
+    echo $book->name;
 }
 ```
 
