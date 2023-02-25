@@ -172,4 +172,29 @@ trait DataModelTrait
             ->where( $where )
             ->update();
     }
+    
+    
+    /**
+     * Modify by ID
+     * @param int $id
+     * @param array $data
+     * @return bool 
+     */
+    public static function modify($id, $data)
+    {
+        $model = new self([], $id);
+        $model->load();
+        return $model->update($data);
+    }
+    /**
+     * Destroy Model statically 
+     * @param int $id
+     * @return \TenQuality\WP\Database\Abstracts\DataModel
+     */
+    public static function destroy($id)
+    {
+        $model = new self([], $id);
+        $model->load();
+        return $model->delete();
+    }
 }
