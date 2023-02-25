@@ -175,12 +175,12 @@ trait DataModelTrait
     
     
     /**
-     * Update data by ID
+     * Modify by ID
      * @param int $id
      * @param array $data
      * @return bool 
      */
-    public static function updateData($id, $data)
+    public static function modify($id, $data)
     {
         $model = new self([], $id);
         $model->load();
@@ -188,6 +188,8 @@ trait DataModelTrait
     }
     /**
      * Destroy Model statically 
+     * @param int $id
+     * @return \TenQuality\WP\Database\Abstracts\DataModel
      */
     public static function destroy($id)
     {
